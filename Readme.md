@@ -55,15 +55,15 @@ A report is described by its minimal temperature (TMin), maximal temperature (TM
 
 ### Data Format
 
-`
+```
 City,City name,X coordinate, Y coordinate
 Date,TMin,TMax
 ...
-`
+```
 
 Example
 
-`
+```
 City,Bestine,1174,611
 01/06/0280,18,36
 02/06/0280,18,37
@@ -74,8 +74,7 @@ City,Carnthout,1280,711
 02/06/0280,17,34
 03/06/0280,17,35
 04/06/0280,17,35
-...
-`
+```
 
 ## Example
 
