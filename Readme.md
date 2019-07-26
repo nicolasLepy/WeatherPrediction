@@ -12,12 +12,27 @@ Algorithm used is quite simple, use simple mathematicals concepts and take into 
 
 ### Predicting the day's temperature of a city 
 
-![Alt text](img/0.gif)
-![Alt text](img/1.gif)
-![Alt text](img/2.gif)
-![Alt text](img/3.gif)
-![Alt text](img/4.gif)
+A normal distribution is used to determine gross variation in temperature from one day to the next.
+
 ![Alt text](img/5.gif)
+
+Then, single exponential smoothing is used to smooth temperature to seasonal normal, to avoid inconsistent temperature.
+
+The alpha parameter determines the importance of flattening.
+
+* 1: the temperature is entirely influenced by the seasonal normal.
+* 0 : the seasonal normal is ignored.
+
+![Alt text](img/0.gif)
+
+![Alt text](img/1.gif)
+
+![Alt text](img/2.gif)
+
+![Alt text](img/3.gif)
+
+![Alt text](img/4.gif)
+
 
 ## Data
 
@@ -31,7 +46,8 @@ A report is described by its minimal temperature (TMin), maximal temperature (TM
 
 ### Tatooine dataset
 
-Only temperature is actually implemented, planet Tatooine (Star Wars' planet with an arid climate) can be taken as an example (considerating that they is no clouds in this planet)
+Only temperature is actually implemented, planet Tatooine (Star Wars' planet with an arid climate) can be taken as an example (considerating that they is no clouds in this planet) (https://www.researchgate.net/publication/326748913_Analysis_of_Weather_Data_Using_Forecasting_Algorithms_ICCI-2017)
+
 
 ![Alt text](img/screen1.png?raw=true "Screenshot")
 
