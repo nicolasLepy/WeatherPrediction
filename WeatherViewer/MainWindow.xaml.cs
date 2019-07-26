@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using LiveCharts.Wpf;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -27,6 +28,12 @@ namespace WeatherViewer
 
         private Database _database;
         private ForecastGenerator _forecast;
+
+        public SeriesCollection SeriesCollection { get; set; }
+        public string[] Labels { get; set; }
+        public Func<double, string> YFormatter { get; set; }
+
+
 
         private void UpdateChart()
         {
@@ -77,7 +84,6 @@ namespace WeatherViewer
 
         public MainWindow()
         {
-            IgnoreEvent = true;
             InitializeComponent();
 
             img1.Source = new BitmapImage(new Uri(System.IO.Directory.GetCurrentDirectory() + "\\img\\sun.png"));
@@ -90,28 +96,25 @@ namespace WeatherViewer
 
 
             _database = new Database();
-            Loader ld = new Loader(_database);
-            ld.LoadDB();
-            _forecast = new ForecastGenerator(_database, new DateTime(281, 5, 31), 0.3, 0.1);
-            for (int i = 0; i < 30; i++)
-                _forecast.GenerateDay();
+            //Loader ld = new Loader(_database);
+            //ld.LoadDB();
+            //_forecast = new ForecastGenerator(_database, new DateTime(281, 5, 31), 0.3, 0.1);
+            //for (int i = 0; i < 30; i++)
+            //    _forecast.GenerateDay();
 
             SeriesCollection = new SeriesCollection();
-            UpdateChart();
 
-            foreach(City city in _database.Cities)
+        }
+
+        private void UpdateWidgets()
+        {
+            lbCities.Items.Clear();
+            foreach (City city in _database.Cities)
             {
                 lbCities.Items.Add(city);
             }
 
-            IgnoreEvent = false;
         }
-
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> YFormatter { get; set; }
-
-        private bool IgnoreEvent { get; set; }
 
         private void RestartComputation()
         {
@@ -124,19 +127,11 @@ namespace WeatherViewer
 
         private void TbAlpha_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(!IgnoreEvent)
-            {
-                //RestartComputation();
-            }
             
         }
 
         private void TbBeta_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(!IgnoreEvent)
-            {
-                //RestartComputation();
-            }
         }
 
         private void BtnRestart_Click(object sender, RoutedEventArgs e)
@@ -147,7 +142,7 @@ namespace WeatherViewer
         private void LbCities_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             City city = lbCities.SelectedItem as City;
-            if(city != null)
+            if(city != null && city.Forecast.Count > 6)
             {
                 lbCityName.Content = city.Name;
                 lb1Min.Content = city.Forecast[0].TMin.ToString("0°");
@@ -164,6 +159,18 @@ namespace WeatherViewer
                 lb6Max.Content = city.Forecast[5].TMax.ToString("0°");
                 lb7Min.Content = city.Forecast[6].TMin.ToString("0°");
                 lb7Max.Content = city.Forecast[6].TMax.ToString("0°");
+                
+            }
+        }
+
+        private void BtnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                Loader ld = new Loader(_database);
+                ld.LoadDB(openFileDialog.FileName);
+                UpdateWidgets();
             }
         }
     }

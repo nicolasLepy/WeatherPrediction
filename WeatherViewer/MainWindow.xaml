@@ -13,12 +13,13 @@
 				<Label Content="Alpha" Width="60" Style="{StaticResource StyleLabel}"/>
 				<TextBox Name="tbAlpha" Text="0.3" Width="30" TextChanged="TbAlpha_TextChanged"/>
 				<ComboBox Name="lbCities" Margin="50 0 0 0" Width="150" SelectionChanged="LbCities_SelectionChanged"/>
+				<Button Name="btnLoad" Margin="50 0 0 0" Width="65" Content="Load data" Click="BtnLoad_Click"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Beta" Width="60" Style="{StaticResource StyleLabel}"/>
 				<TextBox Name="tbBeta" Text="0.1" Width="30" TextChanged="TbBeta_TextChanged"/>
 			</StackPanel>
-				<Button Content="Restart" Width="60" Name="btnRestart" Click="BtnRestart_Click" />
+				<Button Content="Start" Width="60" Name="btnRestart" Click="BtnRestart_Click" />
 			<lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" Height="500" >
 				<lvc:CartesianChart.AxisY>
 					<lvc:Axis Title="Temperature" LabelFormatter="{Binding YFormatter}"></lvc:Axis>

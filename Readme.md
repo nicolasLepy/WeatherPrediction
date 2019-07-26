@@ -45,8 +45,6 @@ City influence is the ratio of its distance to the station to the sum of all dis
 ![Alt text](img/2.gif)
 
 
-
-
 ## Data
 
 Currently, data used is only seasonal normal temperature for each day, for each city.
@@ -54,6 +52,30 @@ Currently, data used is only seasonal normal temperature for each day, for each 
 City is described by its coordinates.
 
 A report is described by its minimal temperature (TMin), maximal temperature (TMax) and date.
+
+### Data Format
+
+`
+City,City name,X coordinate, Y coordinate
+Date,TMin,TMax
+...
+`
+
+Example
+
+`
+City,Bestine,1174,611
+01/06/0280,18,36
+02/06/0280,18,37
+03/06/0280,18,37
+04/06/0280,18,37
+City,Carnthout,1280,711
+01/06/0280,17,34
+02/06/0280,17,34
+03/06/0280,17,35
+04/06/0280,17,35
+...
+`
 
 ## Example
 

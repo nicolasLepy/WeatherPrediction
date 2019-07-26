@@ -31,12 +31,13 @@ namespace WeatherPrediction
 
         }
 
-        public void LoadDB()
+        public void LoadDB(string chemin)
         {
+            _database.Cities.Clear();
             string line;
             City city = null;
             // Read the file and display it line by line.  
-            System.IO.StreamReader file = new System.IO.StreamReader("db.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader(chemin);
             while ((line = file.ReadLine()) != null)
             {
 
