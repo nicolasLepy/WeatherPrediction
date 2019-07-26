@@ -23,15 +23,28 @@ The alpha parameter determines the importance of flattening.
 * 1: the temperature is entirely influenced by the seasonal normal.
 * 0 : the seasonal normal is ignored.
 
+![Alt text](img/4.gif)
+
+Finally, to remain consistent with other cities, temperature of a city (called after the station) is influenced by temperature of the other cities the day before.
+
+![Alt text](img/3.gif)
+
+Beta parameter determine how this influence is big.
+
+* 1 : total influence
+* 0 : no influence
+
+Influence temperature of other cities is the sum of temperature of other cities multipled by proximity of the city to the station. 
+
 ![Alt text](img/0.gif)
+
+City influence is the ratio of its distance to the station to the sum of all distances
 
 ![Alt text](img/1.gif)
 
 ![Alt text](img/2.gif)
 
-![Alt text](img/3.gif)
 
-![Alt text](img/4.gif)
 
 
 ## Data
