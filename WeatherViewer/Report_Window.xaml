@@ -1,0 +1,58 @@
+﻿<Window x:Class="WeatherViewer.Report_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WeatherViewer"
+        mc:Ignorable="d"
+        Title="Report_Window" Height="700" Width="500" Style="{StaticResource StyleWindows}">
+    <Grid>
+		<StackPanel Orientation="Vertical">
+			<StackPanel Orientation="Horizontal">
+				<Label Content="City" Style="{StaticResource StyleLabel}"/>
+				<ComboBox Name="cbCities" Width="150"/>
+				<DatePicker Name="dpDate"/>
+			</StackPanel>
+			<Button Name="btnSelect" Content="Show forecast" Width="100" Click="BtnSelect_Click"/>
+			<DataGrid Name="dgForecast" Width="160">
+				<DataGrid.RowStyle>
+					<Style TargetType="DataGridRow">
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding Color}" Value="0">
+								<Setter Property="Background" Value="#001eff"></Setter>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Color}" Value="1">
+								<Setter Property="Background" Value="#0095ff"></Setter>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Color}" Value="2">
+								<Setter Property="Background" Value="#00ff80"></Setter>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Color}" Value="3">
+								<Setter Property="Background" Value="#289600"></Setter>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Color}" Value="4">
+								<Setter Property="Background" Value="#e0d900"></Setter>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Color}" Value="5">
+								<Setter Property="Background" Value="#e07700"></Setter>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Color}" Value="6">
+								<Setter Property="Background" Value="#e00000"></Setter>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Color}" Value="7">
+								<Setter Property="Background" Value="#4a011e"></Setter>
+							</DataTrigger>
+							<DataTrigger Binding="{Binding Color}" Value="8">
+								<Setter Property="Background" Value="#1f000c"></Setter>
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</DataGrid.RowStyle>
+				<DataGrid.Columns>
+					<DataGridTextColumn Header="Hour" Binding="{Binding Hour}" Width="80"/>
+					<DataGridTextColumn Header="Temperature" Binding="{Binding Temperature}" Width="80"/>
+				</DataGrid.Columns>
+			</DataGrid>
+		</StackPanel>
+    </Grid>
+</Window>

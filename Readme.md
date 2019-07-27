@@ -5,6 +5,7 @@ Weather Prediction is a very simple stochastic algorithm for predicting weather 
 * Predicting temperature
 * Predicting humidity
 * Predicting weather
+* Add indicators (Humidex, Windchill)
 
 ## Algorithm
 
@@ -25,7 +26,7 @@ The alpha parameter determines the importance of flattening.
 
 ![Alt text](img/4.gif)
 
-Finally, to remain consistent with other cities, temperature of a city (called after the station) is influenced by temperature of the other cities the day before.
+Finally, to remain consistent with other cities, temperature of a city (called after the station) is influenced by temperature of the other cities the day before. A city close to another must have a similar weather.
 
 ![Alt text](img/3.gif)
 
@@ -44,6 +45,9 @@ City influence is the ratio of its distance to the station to the sum of all dis
 
 ![Alt text](img/2.gif)
 
+### Hourly forecasts
+
+Polynomial interpolation is used to determine temperature and humidity at a specific time thanks to min and max values.
 
 ## Data
 
@@ -84,6 +88,11 @@ Only temperature is actually implemented, planet Tatooine (Star Wars' planet wit
 
 
 ![Alt text](img/screen1.png?raw=true "Screenshot")
+
+Hourly temperature
+
+![Alt text](img/screen2.png?raw=true "Screenshot")
+
 
 ## Authors
 Nicolas Lépy

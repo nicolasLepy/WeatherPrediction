@@ -14,6 +14,7 @@
 				<TextBox Name="tbAlpha" Text="0.3" Width="30" TextChanged="TbAlpha_TextChanged"/>
 				<ComboBox Name="lbCities" Margin="50 0 0 0" Width="150" SelectionChanged="LbCities_SelectionChanged"/>
 				<Button Name="btnLoad" Margin="50 0 0 0" Width="65" Content="Load data" Click="BtnLoad_Click"/>
+				<Button Name="btnForecast" Margin="50 0 0 0" Width="65" Content="Hourly Forecast" Click="BtnForecast_Click"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Beta" Width="60" Style="{StaticResource StyleLabel}"/>

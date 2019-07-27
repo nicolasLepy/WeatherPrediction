@@ -77,7 +77,6 @@ namespace WeatherViewer
 
             Labels = labelsList.ToArray();
             YFormatter = value => value.ToString("0.0°");
-            Console.WriteLine("hello");
             DataContext = this;
 
         }
@@ -172,6 +171,12 @@ namespace WeatherViewer
                 ld.LoadDB(openFileDialog.FileName);
                 UpdateWidgets();
             }
+        }
+
+        private void BtnForecast_Click(object sender, RoutedEventArgs e)
+        {
+            Report_Window rw = new Report_Window(_database);
+            rw.Show();
         }
     }
 }

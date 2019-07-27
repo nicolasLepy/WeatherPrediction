@@ -37,6 +37,17 @@ namespace WeatherPrediction
             
         }
 
+        public Report GetReport(DateTime date)
+        {
+            Report res = null;
+            foreach(Report report in Forecast)
+            {
+                if (report.Day.Month == date.Month && report.Day.Day == date.Day && report.Day.Year == date.Year)
+                    res = report;
+            }
+            return res;
+        }
+
         public Report DailyNormal(DateTime date)
         {
             Report res = null;
