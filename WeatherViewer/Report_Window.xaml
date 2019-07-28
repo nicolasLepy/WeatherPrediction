@@ -14,7 +14,7 @@
 				<DatePicker Name="dpDate"/>
 			</StackPanel>
 			<Button Name="btnSelect" Content="Show forecast" Width="100" Click="BtnSelect_Click"/>
-			<DataGrid Name="dgForecast" Width="160">
+			<DataGrid Name="dgForecast" Width="270" Style="{StaticResource StyleDataGridColumn}">
 				<DataGrid.RowStyle>
 					<Style TargetType="DataGridRow">
 						<Style.Triggers>
@@ -22,16 +22,16 @@
 								<Setter Property="Background" Value="#001eff"></Setter>
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Color}" Value="1">
-								<Setter Property="Background" Value="#0095ff"></Setter>
+								<Setter Property="Background" Value="#005270"></Setter>
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Color}" Value="2">
-								<Setter Property="Background" Value="#00ff80"></Setter>
+								<Setter Property="Background" Value="#006635"></Setter>
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Color}" Value="3">
 								<Setter Property="Background" Value="#289600"></Setter>
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Color}" Value="4">
-								<Setter Property="Background" Value="#e0d900"></Setter>
+								<Setter Property="Background" Value="#036300"></Setter>
 							</DataTrigger>
 							<DataTrigger Binding="{Binding Color}" Value="5">
 								<Setter Property="Background" Value="#e07700"></Setter>
@@ -51,6 +51,14 @@
 				<DataGrid.Columns>
 					<DataGridTextColumn Header="Hour" Binding="{Binding Hour}" Width="80"/>
 					<DataGridTextColumn Header="Temperature" Binding="{Binding Temperature}" Width="80"/>
+					<DataGridTextColumn Header="Pressure" Binding="{Binding Pressure}" Width="80"/>
+					<DataGridTemplateColumn Width="30">
+						<DataGridTemplateColumn.CellTemplate>
+							<DataTemplate>
+								<Image Source="{Binding Icon}" />
+							</DataTemplate>
+						</DataGridTemplateColumn.CellTemplate>
+					</DataGridTemplateColumn>
 				</DataGrid.Columns>
 			</DataGrid>
 		</StackPanel>

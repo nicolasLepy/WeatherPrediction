@@ -10,28 +10,35 @@ namespace WeatherPrediction
     public class ForecastGenerator
     {
 
+        private Random _random;
+
         private Database _database;
         private DateTime _day;
         private double _alpha;
         private double _beta;
+        private double _gamma;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="database"></param>
         /// <param name="day"></param>
-        /// <param name="alpha"> Smoothness coefficient (between 0 and 1)
+        /// <param name="alpha"> Smoothness coefficient for temperatures (between 0 and 1)
         /// 1 : no freedom, forecasts depend entirely from recorded data 
         /// 0 : total freedom </param>
         /// <param name="beta"> Influence of reports from other cities to determine report of a place
         /// from 0 (no influence) to 1 (total influence)
         /// </param>
-        public ForecastGenerator(Database database, DateTime day, double alpha, double beta)
+        /// <param name="gamma"> Smoothness coefficient for athmospheric pressure (between 0 and 1)
+        /// </param>
+        public ForecastGenerator(Database database, DateTime day, double alpha, double beta, double gamma)
         {
+            _random = new Random();
             _database = database;
             _day = day;
             _alpha = alpha;
             _beta = beta;
+            _gamma = gamma;
         }
 
         /// <summary>
@@ -68,7 +75,10 @@ namespace WeatherPrediction
         {
             _day = _day.AddDays(1);
             Console.WriteLine("Simulate day " + _day.ToShortDateString());
+            //Normal distribution used for temperature variation
             Normal normalDistribution = new Normal(0, 3);
+            //Normal distribution used for pressure variation
+            Normal normalDistributionPressure = new Normal(0, 1);
 
             foreach(City city in _database.Cities)
             {
@@ -84,8 +94,30 @@ namespace WeatherPrediction
                 double tMax = lastDay.TMax + normalDistribution.Sample();
                 tMax = tMax + (_alpha * (normal.TMax - tMax));
                 tMax = tMax + (_beta * (InfluenceOtherCities(city, true) - tMax));
+                
+                Report report = new Report(_day, tMin, tMax);
 
-                city.Forecast.Add(new Report(_day, tMin, tMax));
+                //Athmospheric pressure
+
+                double lastPressure = lastDay.LastPressure().Value;
+                //Generate 3 local extremum every day (0-7h, 8-15h, 16-23h)
+                for (int i = 0; i<3; i++)
+                {
+                    int hour = _random.Next(i * 8, ((i + 1) * 8) - 1);
+
+                    double grossPressure = lastPressure + normalDistributionPressure.Sample();
+                    //If it's the first pressure calculated for the day, applying smoothing on it
+                    if (hour < 8)
+                    {
+                        double avg_pressure = (city.GetSeason(_day).Average_Max_Pressure + city.GetSeason(_day).Average_Min_Pressure) / 2.0;
+                        grossPressure = grossPressure + (_gamma * ( avg_pressure - grossPressure ));
+                    }
+                    report.AddPressureValue(hour, grossPressure);
+                    lastPressure = grossPressure;
+                }
+                
+                report.SetWeather(city.GetSeason(_day),lastDay, city.Altitude);
+                city.Forecast.Add(report);
             }
 
         }

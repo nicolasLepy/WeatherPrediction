@@ -9,12 +9,15 @@ namespace WeatherPrediction
     public class Database
     {
         private List<City> _cities;
+        private List<Season> _seasons;
 
         public List<City> Cities { get => _cities; }
+        public List<Season> Seasons { get => _seasons; }
 
         public Database()
         {
             _cities = new List<City>();
+            _seasons = new List<Season>();
         }
 
         public string ShowForecast()
@@ -38,25 +41,14 @@ namespace WeatherPrediction
                 city.Forecast.Clear();
             }
         }
-    }
 
-
-
-    public class Report
-    {
-        private DateTime _day;
-        private double _tMin;
-        private double _tMax;
-
-        public DateTime Day { get => _day; }
-        public double TMin { get => _tMin; }
-        public double TMax { get => _tMax; }
-
-        public Report(DateTime day, double tmin, double tmax)
+        public Season String2Season(string name)
         {
-            _day = day;
-            _tMax = tmax;
-            _tMin = tmin;
+            Season res = null;
+            foreach (Season s in _seasons) if (s.Name == name) res = s;
+            return res;
         }
     }
+
+    
 }

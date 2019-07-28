@@ -45,9 +45,53 @@ City influence is the ratio of its distance to the station to the sum of all dis
 
 ![Alt text](img/2.gif)
 
+### Predicting the day's athmospheric pressure of a city
+
+
+A similar process is used to predict athmospheric pressure of a city.
+
+For each city, three local extrema (morning, afternoon and evening) of athmospheric pressure are forecasted.
+
+Gross variation is determined by a normal distribution.
+
+![Alt text](img/6.gif)
+
+Once again, single exponential smoothing is used to smooth pressure to expected pressures, to avoid disproportionate values.
+
+![Alt text](img/7.gif)
+
+### Predicting weather (cloudiness, rain)
+
+Thanks to pressure, altitude and temperature of the city we can make an approximation of the coming weather.
+
+First of all, we need to get the sea level pressure, called ![Alt text](img/9.gif).
+
+![Alt text](img/8.gif)
+
+T is temperature of the city
+P is the athmospheric pressure
+h is the altitude of the city
+
+Once ![Alt text](img/9.gif) is obtained, we can obtain a "weather indicator" called Z, which takes as value : 
+
+* If pressure is falling : ![Alt text](img/10.gif)
+
+* If pressure remains steady : ![Alt text](img/11.gif)
+
+* If pressure is rising : ![Alt text](img/12.gif)
+
+Then,
+
+* if current season is winter, Z = Z - 1
+* if current season is summer, Z = Z + 1
+
+(Normaly, wind direction affects weather, but as wind is not yet implemented, this part is currently ignored)
+
+Finally, we obtain a number between 1 and 32, corresponding to the coming weather
+
 ### Hourly forecasts
 
-Polynomial interpolation is used to determine temperature and humidity at a specific time thanks to min and max values.
+Polynomial interpolation is used to determine temperature, pressure and humidity at a specific time thanks to min and max values.
 
 ## Data
 
@@ -60,7 +104,9 @@ A report is described by its minimal temperature (TMin), maximal temperature (TM
 ### Data Format
 
 ```
-City,City name,X coordinate, Y coordinate
+SeasonDef,Season_Name,Begin,End,Min_Pressure,Max_Pressure,Winter_Season
+City,City name,X coordinate, Y coordinate,Altitude
+AddSeason,Season_Name
 Date,TMin,TMax
 ...
 ```
@@ -68,12 +114,18 @@ Date,TMin,TMax
 Example
 
 ```
+SeasonDef,StandardTatooine_Winter,01/01,01/06,1000,1020,True
+SeasonDef,StandardTatooine_Summer,01/06,31/21,1015,1035,False
 City,Bestine,1174,611
+AddSeason,StandardTatooine_Winter
+AddSeason,StandardTatooine_Summer
 01/06/0280,18,36
 02/06/0280,18,37
 03/06/0280,18,37
 04/06/0280,18,37
 City,Carnthout,1280,711
+AddSeason,StandardTatooine_Winter
+AddSeason,StandardTatooine_Summer
 01/06/0280,17,34
 02/06/0280,17,34
 03/06/0280,17,35
@@ -84,15 +136,15 @@ City,Carnthout,1280,711
 
 ### Tatooine dataset
 
-Only temperature is actually implemented, planet Tatooine (Star Wars' planet with an arid climate) can be taken as an example (considerating that they is no clouds in this planet) (https://www.researchgate.net/publication/326748913_Analysis_of_Weather_Data_Using_Forecasting_Algorithms_ICCI-2017)
-
-
 ![Alt text](img/screen1.png?raw=true "Screenshot")
 
 Hourly temperature
 
 ![Alt text](img/screen2.png?raw=true "Screenshot")
 
+Weather forecasts
+
+![Alt text](img/screen3.png?raw=true "Screenshot")
 
 ## Authors
 Nicolas Lépy
@@ -104,6 +156,10 @@ WPF
 
 ## Credits
 Selvaraj, Poornima & Marudappa, Pushpalatha & Sujit Shankar, J. (2019). Analysis of Weather Data Using Forecasting Algorithms: ICCI-2017. 10.1007/978-981-13-1132-1_1.
+
+https://web.archive.org/web/20110610213848/http://www.meteormetrics.com/zambretti.htm
+
+VClouds Weather Icons© by VClouds - http://vclouds.deviantart.com/
 
 Live Charts for WPF (https://lvcharts.net/)
 MathNet.Numerics

@@ -3,12 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:WeatherViewer"
              StartupUri="MainWindow.xaml">
-    <Application.Resources>
+	<Application.Resources>
 
 		<SolidColorBrush x:Key="backgroundColor" Color="#1c262b"/>
 		<SolidColorBrush x:Key="borderColor" Color="#1a1a1a"/>
 
 		<SolidColorBrush x:Key="color1" Color="#cccccc"/>
+		<SolidColorBrush x:Key="colorMin" Color="#1393A1"/>
+		<SolidColorBrush x:Key="colorMax" Color="#CB472A"/>
 
 		<Style x:Key="StyleWindows" TargetType="{x:Type Window}">
 			<Setter Property="ResizeMode" Value="NoResize"/>
@@ -21,5 +23,20 @@
 			<Setter Property="FontSize" Value="12"/>
 			<Setter Property="Foreground" Value="{StaticResource color1}" />
 		</Style>
+
+		<Style x:Key="StyleLabelTempMin" TargetType="{x:Type Label}">
+			<Setter Property="FontSize" Value="12"/>
+			<Setter Property="Foreground" Value="{StaticResource colorMin}" />
+		</Style>
+
+		<Style x:Key="StyleLabelTempMax" TargetType="{x:Type Label}">
+			<Setter Property="FontSize" Value="18"/>
+			<Setter Property="Foreground" Value="{StaticResource colorMax}" />
+		</Style>
+
+		<Style x:Key="StyleDataGridColumn" TargetType="{x:Type DataGrid}">
+			<Setter Property="Foreground" Value="{StaticResource color1}"/>
+		</Style>
+
 	</Application.Resources>
 </Application>

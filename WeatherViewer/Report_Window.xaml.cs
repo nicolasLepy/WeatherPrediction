@@ -34,8 +34,7 @@ namespace WeatherViewer
             foreach(City city in _database.Cities)
             {
                 cbCities.Items.Add(city);
-            }
-           
+            }   
         }
 
         private void BtnSelect_Click(object sender, RoutedEventArgs e)
@@ -49,28 +48,20 @@ namespace WeatherViewer
                 Report rp_before = city.GetReport(dateVal.AddDays(-1));
                 Report rp_after = city.GetReport(dateVal.AddDays(1));
 
-                List<double> heures = new List<double>();
-                heures.Add(-6);
-                heures.Add(4.5);
-                heures.Add(5);
-                heures.Add(17);
-                heures.Add(17.5);
-                heures.Add(29);
-                List<double> temp = new List<double>();
-                temp.Add(rp_before.TMax);
-                temp.Add(rp.TMin);
-                temp.Add(rp.TMin);
-                temp.Add(rp.TMax);
-                temp.Add(rp.TMax);
-                temp.Add(rp_after.TMin);
-                IInterpolation interpolation = Interpolate.Polynomial(heures, temp);
+                //Create polynomial interpolation for temperatures
+                IInterpolation interpolation = Utils.TemperaturesInterpolation(rp_before.TMax, rp.TMin, rp.TMax, rp_after.TMin);
+
+                //Create polynomial interpolation for pressures
+                IInterpolation interpolation_pressure = Utils.PressuresInterpolation(rp_before.LastPressure(), rp.Pressures, rp_after.FirstPressure());
 
                 dgForecast.Items.Clear();
 
                 for (int i = 0; i<24; i++)
                 {
                     double tempe = interpolation.Interpolate(i);
-                    dgForecast.Items.Add(new HourlyReport() { Hour = i + "h", Temperature = tempe.ToString("0.0") +"°", Color = GetTemperatureColor(tempe) });
+                    double pressure = interpolation_pressure.Interpolate(i);
+                    double weather = rp.Weather[i];
+                    dgForecast.Items.Add(new HourlyReport() { Hour = i + "h", Temperature = tempe.ToString("0.0") +"°", Color = GetTemperatureColor(tempe), Pressure = pressure.ToString("0.0 hp"), Icon=View_Utils.IconPath(View_Utils.WeatherToIcon(weather)) });
                     
                 }
             }
@@ -99,5 +90,7 @@ namespace WeatherViewer
         public string Color { get; set; }
         public string Hour { get; set; }
         public string Temperature { get; set; }
+        public string Pressure { get; set; }
+        public string Icon { get; set; }
     }
 }

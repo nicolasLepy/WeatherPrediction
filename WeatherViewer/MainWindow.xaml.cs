@@ -33,9 +33,43 @@ namespace WeatherViewer
         public string[] Labels { get; set; }
         public Func<double, string> YFormatter { get; set; }
 
+        public SeriesCollection SeriesCollection_Pressure { get; set; }
+        public string[] Labels_Pressure { get; set; }
+        public Func<double, string> YFormatter_Pressure { get; set; }
 
+        private void UpdateChartPressures()
+        {
+            SeriesCollection_Pressure.Clear();
+            foreach(City city in _database.Cities)
+            {
+                string title = city.Name;
+                List<double> reports = new List<double>();
+                foreach(Report rp in city.Forecast)
+                {
+                    reports.Add(rp.FirstPressure().Value);
+                }
+                LineSeries ls = new LineSeries();
+                ls.Title = title;
+                ChartValues<double> cv = new ChartValues<double>(reports);
+                ls.Values = cv;
+                ls.Stroke = Brushes.DarkGreen;
+                ls.Fill = Brushes.Transparent;
+                SeriesCollection_Pressure.Add(ls);
 
-        private void UpdateChart()
+                
+            }
+
+            List<string> labelsList = new List<string>();
+            foreach (Report rp in _database.Cities[0].Forecast)
+            {
+                labelsList.Add(rp.Day.ToShortDateString());
+            }
+
+            Labels_Pressure = labelsList.ToArray();
+            YFormatter_Pressure = value => value.ToString("0.0 hp");
+        }
+
+        private void UpdateChartTemperatures()
         {
             SeriesCollection.Clear();
             foreach (City city in _database.Cities)
@@ -77,51 +111,36 @@ namespace WeatherViewer
 
             Labels = labelsList.ToArray();
             YFormatter = value => value.ToString("0.0°");
-            DataContext = this;
 
         }
 
         public MainWindow()
         {
             InitializeComponent();
-
-            img1.Source = new BitmapImage(new Uri(System.IO.Directory.GetCurrentDirectory() + "\\img\\sun.png"));
-            img2.Source = new BitmapImage(new Uri(System.IO.Directory.GetCurrentDirectory() + "\\img\\sun.png"));
-            img3.Source = new BitmapImage(new Uri(System.IO.Directory.GetCurrentDirectory() + "\\img\\sun.png"));
-            img4.Source = new BitmapImage(new Uri(System.IO.Directory.GetCurrentDirectory() + "\\img\\sun.png"));
-            img5.Source = new BitmapImage(new Uri(System.IO.Directory.GetCurrentDirectory() + "\\img\\sun.png"));
-            img6.Source = new BitmapImage(new Uri(System.IO.Directory.GetCurrentDirectory() + "\\img\\sun.png"));
-            img7.Source = new BitmapImage(new Uri(System.IO.Directory.GetCurrentDirectory() + "\\img\\sun.png"));
-
-
+            
             _database = new Database();
-            //Loader ld = new Loader(_database);
-            //ld.LoadDB();
-            //_forecast = new ForecastGenerator(_database, new DateTime(281, 5, 31), 0.3, 0.1);
-            //for (int i = 0; i < 30; i++)
-            //    _forecast.GenerateDay();
-
+            
             SeriesCollection = new SeriesCollection();
+            SeriesCollection_Pressure = new SeriesCollection();
 
         }
 
         private void UpdateWidgets()
         {
-            lbCities.Items.Clear();
-            foreach (City city in _database.Cities)
-            {
-                lbCities.Items.Add(city);
-            }
+            
 
         }
 
         private void RestartComputation()
         {
             _database.ResetForecast();
-            _forecast = new ForecastGenerator(_database, new DateTime(281, 5, 31), Double.Parse(tbAlpha.Text, CultureInfo.InvariantCulture), Double.Parse(tbBeta.Text, CultureInfo.InvariantCulture));
-            for (int i = 0; i < 30; i++)
+            _forecast = new ForecastGenerator(_database, new DateTime(281, 5, 31), Double.Parse(tbAlpha.Text, CultureInfo.InvariantCulture), Double.Parse(tbBeta.Text, CultureInfo.InvariantCulture), Double.Parse(tbGamma.Text, CultureInfo.InvariantCulture));
+            for (int i = 0; i < 60; i++)
                 _forecast.GenerateDay();
-            UpdateChart();
+            UpdateChartTemperatures();
+            UpdateChartPressures();
+            DataContext = this;
+
         }
 
         private void TbAlpha_TextChanged(object sender, TextChangedEventArgs e)
@@ -137,30 +156,7 @@ namespace WeatherViewer
         {
             RestartComputation();
         }
-
-        private void LbCities_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            City city = lbCities.SelectedItem as City;
-            if(city != null && city.Forecast.Count > 6)
-            {
-                lbCityName.Content = city.Name;
-                lb1Min.Content = city.Forecast[0].TMin.ToString("0°");
-                lb1Max.Content = city.Forecast[0].TMax.ToString("0°");
-                lb2Min.Content = city.Forecast[1].TMin.ToString("0°");
-                lb2Max.Content = city.Forecast[1].TMax.ToString("0°");
-                lb3Min.Content = city.Forecast[2].TMin.ToString("0°");
-                lb3Max.Content = city.Forecast[2].TMax.ToString("0°");
-                lb4Min.Content = city.Forecast[3].TMin.ToString("0°");
-                lb4Max.Content = city.Forecast[3].TMax.ToString("0°");
-                lb5Min.Content = city.Forecast[4].TMin.ToString("0°");
-                lb5Max.Content = city.Forecast[4].TMax.ToString("0°");
-                lb6Min.Content = city.Forecast[5].TMin.ToString("0°");
-                lb6Max.Content = city.Forecast[5].TMax.ToString("0°");
-                lb7Min.Content = city.Forecast[6].TMin.ToString("0°");
-                lb7Max.Content = city.Forecast[6].TMax.ToString("0°");
-                
-            }
-        }
+        
 
         private void BtnLoad_Click(object sender, RoutedEventArgs e)
         {
@@ -177,6 +173,12 @@ namespace WeatherViewer
         {
             Report_Window rw = new Report_Window(_database);
             rw.Show();
+        }
+
+        private void BtnForecast_Click_1(object sender, RoutedEventArgs e)
+        {
+            WeatherForecast_Window wfw = new WeatherForecast_Window(_database);
+            wfw.Show();
         }
     }
 }

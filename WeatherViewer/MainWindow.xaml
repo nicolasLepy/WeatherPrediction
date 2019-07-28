@@ -6,67 +6,47 @@
         xmlns:local="clr-namespace:WeatherViewer"
 		xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="Weather Prediction" Height="730" Width="800" Style="{StaticResource StyleWindows}">
+        Title="Weather Prediction" Height="730" Width="1300" Style="{StaticResource StyleWindows}">
 	<Grid>
 		<StackPanel Orientation="Vertical">
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Alpha" Width="60" Style="{StaticResource StyleLabel}"/>
 				<TextBox Name="tbAlpha" Text="0.3" Width="30" TextChanged="TbAlpha_TextChanged"/>
-				<ComboBox Name="lbCities" Margin="50 0 0 0" Width="150" SelectionChanged="LbCities_SelectionChanged"/>
 				<Button Name="btnLoad" Margin="50 0 0 0" Width="65" Content="Load data" Click="BtnLoad_Click"/>
-				<Button Name="btnForecast" Margin="50 0 0 0" Width="65" Content="Hourly Forecast" Click="BtnForecast_Click"/>
+				<Button Name="btnForecast" Margin="50 0 0 0" Width="100" Content="Hourly Forecast" Click="BtnForecast_Click"/>
+				<Button Name="btnWeather" Margin="50 0 0 0" Width="100" Content="Weather Reports" Click="BtnForecast_Click_1"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Beta" Width="60" Style="{StaticResource StyleLabel}"/>
 				<TextBox Name="tbBeta" Text="0.1" Width="30" TextChanged="TbBeta_TextChanged"/>
 			</StackPanel>
-				<Button Content="Start" Width="60" Name="btnRestart" Click="BtnRestart_Click" />
-			<lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" Height="500" >
-				<lvc:CartesianChart.AxisY>
-					<lvc:Axis Title="Temperature" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
-				</lvc:CartesianChart.AxisY>
-				<lvc:CartesianChart.AxisX>
-					<lvc:Axis Title="Day" Labels="{Binding Labels}"></lvc:Axis>
-				</lvc:CartesianChart.AxisX>
-			</lvc:CartesianChart>
-			<Label Content="" Name="lbCityName" Style="{StaticResource StyleLabel}"/>
 			<StackPanel Orientation="Horizontal">
-				<StackPanel Orientation="Vertical">
-					<Image Source="img/cloud.png" Name="img1" Width="40" Height="40"/>
-					<Label Content="20°" Name="lb1Min" Style="{StaticResource StyleLabel}"/>
-					<Label Content="24°" Name="lb1Max" Style="{StaticResource StyleLabel}"/>
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<Image Source="img/cloud.png" Name="img2" Width="40" Height="40"/>
-					<Label Content="20°" Name="lb2Min" Style="{StaticResource StyleLabel}"/>
-					<Label Content="24°" Name="lb2Max" Style="{StaticResource StyleLabel}"/>
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<Image Source="img/cloud.png" Name="img3" Width="40" Height="40"/>
-					<Label Content="20°" Name="lb3Min" Style="{StaticResource StyleLabel}"/>
-					<Label Content="24°" Name="lb3Max" Style="{StaticResource StyleLabel}"/>
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<Image Source="img/cloud.png" Name="img4" Width="40" Height="40"/>
-					<Label Content="20°" Name="lb4Min" Style="{StaticResource StyleLabel}"/>
-					<Label Content="24°" Name="lb4Max" Style="{StaticResource StyleLabel}"/>
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<Image Source="img/cloud.png" Name="img5" Width="40" Height="40"/>
-					<Label Content="20°" Name="lb5Min" Style="{StaticResource StyleLabel}"/>
-					<Label Content="24°" Name="lb5Max" Style="{StaticResource StyleLabel}"/>
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<Image Source="img/cloud.png" Name="img6" Width="40" Height="40"/>
-					<Label Content="20°" Name="lb6Min" Style="{StaticResource StyleLabel}"/>
-					<Label Content="24°" Name="lb6Max" Style="{StaticResource StyleLabel}"/>
-				</StackPanel>
-				<StackPanel Orientation="Vertical">
-					<Image Source="img/cloud.png" Name="img7" Width="40" Height="40"/>
-					<Label Content="20°" Name="lb7Min" Style="{StaticResource StyleLabel}"/>
-					<Label Content="24°" Name="lb7Max" Style="{StaticResource StyleLabel}"/>
-				</StackPanel>
+				<Label Content="Gamma" Width="60" Style="{StaticResource StyleLabel}"/>
+				<TextBox Name="tbGamma" Text="0.1" Width="30"/>
 			</StackPanel>
+				<Button Content="Start" Width="60" Name="btnRestart" Click="BtnRestart_Click" />
+
+			<StackPanel Orientation="Horizontal">
+				<lvc:CartesianChart Series="{Binding SeriesCollection}" LegendLocation="Right" Height="500" Width="650" >
+					<lvc:CartesianChart.AxisY>
+						<lvc:Axis Title="Temperature" LabelFormatter="{Binding YFormatter}"></lvc:Axis>
+					</lvc:CartesianChart.AxisY>
+					<lvc:CartesianChart.AxisX>
+						<lvc:Axis Title="Day" Labels="{Binding Labels}"></lvc:Axis>
+					</lvc:CartesianChart.AxisX>
+				</lvc:CartesianChart>
+
+				<lvc:CartesianChart Series="{Binding SeriesCollection_Pressure}" LegendLocation="Right" Height="500"  Width="650" >
+					<lvc:CartesianChart.AxisY>
+						<lvc:Axis Title="Temperature" LabelFormatter="{Binding YFormatter_Pressure}"></lvc:Axis>
+					</lvc:CartesianChart.AxisY>
+					<lvc:CartesianChart.AxisX>
+						<lvc:Axis Title="Day" Labels="{Binding Labels_Pressure}"></lvc:Axis>
+					</lvc:CartesianChart.AxisX>
+				</lvc:CartesianChart>
+			</StackPanel>
+			
+			
 		</StackPanel>
 		
 
