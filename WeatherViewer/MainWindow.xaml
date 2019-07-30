@@ -15,6 +15,7 @@
 				<Button Name="btnLoad" Margin="50 0 0 0" Width="65" Content="Load data" Click="BtnLoad_Click"/>
 				<Button Name="btnForecast" Margin="50 0 0 0" Width="100" Content="Hourly Forecast" Click="BtnForecast_Click"/>
 				<Button Name="btnWeather" Margin="50 0 0 0" Width="100" Content="Weather Reports" Click="BtnForecast_Click_1"/>
+				<Button Name="btnMap" Margin="50 0 0 0" Width="100" Content="Map" Click="BtnMap_Click"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal">
 				<Label Content="Beta" Width="60" Style="{StaticResource StyleLabel}"/>

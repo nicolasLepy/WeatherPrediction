@@ -11,6 +11,11 @@ namespace WeatherPrediction
     public class Utils
     {
 
+        public static double Distance(double xa, double ya, double xb, double yb)
+        {
+            return Math.Sqrt(Math.Pow(xb - xa, 2) + Math.Pow(yb - ya, 2));
+        }
+
         public static double Distance(City a, City b)
         {
             return Math.Sqrt( Math.Pow( b.X-a.X ,2) + Math.Pow(b.Y - a.Y, 2));

@@ -93,13 +93,32 @@ Finally, we obtain a number between 1 and 32, corresponding to the coming weathe
 
 Polynomial interpolation is used to determine temperature, pressure and humidity at a specific time thanks to min and max values.
 
+### Obtain the temperature in any coordinates on the map
+
+It is possible to estimate temperature and other indicators at every point on the map thanks to inverse distance weighting.
+
+![Alt text](img/13.png)
+
+Where :
+
+![Alt text](img/14.png)
+
+* u(x) is the estimated temperature of point x.
+* d(x,xk) is the distance between x and xk.
+* uk is the temperature of the station k.
+* p is a power parameter. A greater value of p gives more importance to closer values of x.
+
+The temperature of a point is influenced by each station on the map, but the closer the station is, the greater the impact on estimated temperature, and vice versa. 
+
 ## Data
 
-Currently, data used is only seasonal normal temperature for each day, for each city.
+Currently, data used is only seasonal normal temperature for each day, for each city, and athmospheric pressure.
 
-City is described by its coordinates.
+City is described by its coordinates, its altitude and its seasons.
 
-A report is described by its minimal temperature (TMin), maximal temperature (TMax) and date.
+Seasons are described by their date, and their average values of athomspheric pressure.
+
+A report is described by its minimal temperature (TMin), maximal temperature (TMax), date and athmospheric pressure.
 
 ### Data Format
 
@@ -146,6 +165,10 @@ Weather forecasts
 
 ![Alt text](img/screen3.png?raw=true "Screenshot")
 
+Overview of the map
+
+![Alt text](img/screen4.png?raw=true "Screenshot")
+
 ## Authors
 Nicolas Lépy
 
@@ -158,6 +181,10 @@ WPF
 Selvaraj, Poornima & Marudappa, Pushpalatha & Sujit Shankar, J. (2019). Analysis of Weather Data Using Forecasting Algorithms: ICCI-2017. 10.1007/978-981-13-1132-1_1.
 
 https://web.archive.org/web/20110610213848/http://www.meteormetrics.com/zambretti.htm
+
+https://fr.wikipedia.org/wiki/Pond%C3%A9ration_inverse_%C3%A0_la_distance
+
+https://www.reddit.com/r/sw5e/comments/aiv99p/cleaned_up_a_map_of_tatooine_i_found_on/
 
 VClouds Weather Icons© by VClouds - http://vclouds.deviantart.com/
 

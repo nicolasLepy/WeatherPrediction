@@ -3,11 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace WeatherViewer
 {
     public class View_Utils
     {
+
+        public static Color Temperature2Color(double temperature)
+        {
+            Color res = new Color();
+            res.A = 140;
+            
+            double red = 0;
+            double blue = 20;
+            double green = 20;
+
+            if(temperature > 25)
+            {
+                red = (temperature - 25) * 17;
+                if (red > 255) red = 255;
+            }
+            else
+            {
+                red = 0;
+            }
+
+            if (temperature < 10)
+            {
+                blue = (30-(temperature + 20)) * 8.5;
+                if (blue > 255) blue = 255;
+            }
+            else
+                blue = 0;
+
+            if(temperature > 0 && temperature < 30)
+            {
+                double tp = 15 - Math.Abs(temperature - 15);
+                green = tp * 17;
+                if (green > 255) green = 255;
+            }
+
+            
+
+            res.R = (byte)red;
+            res.B = (byte)blue;
+            res.G = (byte)green;
+            return res;
+        }
 
         public static string IconPath(string iconName)
         {

@@ -180,5 +180,11 @@ namespace WeatherViewer
             WeatherForecast_Window wfw = new WeatherForecast_Window(_database);
             wfw.Show();
         }
+
+        private void BtnMap_Click(object sender, RoutedEventArgs e)
+        {
+            Map_Window mw = new Map_Window(_database);
+            mw.Show();
+        }
     }
 }

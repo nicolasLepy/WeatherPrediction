@@ -8,6 +8,7 @@
 		<SolidColorBrush x:Key="backgroundColor" Color="#1c262b"/>
 		<SolidColorBrush x:Key="borderColor" Color="#1a1a1a"/>
 
+
 		<SolidColorBrush x:Key="color1" Color="#cccccc"/>
 		<SolidColorBrush x:Key="colorMin" Color="#1393A1"/>
 		<SolidColorBrush x:Key="colorMax" Color="#CB472A"/>
@@ -34,9 +35,16 @@
 			<Setter Property="Foreground" Value="{StaticResource colorMax}" />
 		</Style>
 
+		<Style x:Key="StyleLabelMap" TargetType="{x:Type Label}">
+			<Setter Property="FontSize" Value="10"/>
+			<Setter Property="FontWeight" Value="Bold"/>
+			<Setter Property="Foreground" Value="{StaticResource color1}" />
+		</Style>
+		
 		<Style x:Key="StyleDataGridColumn" TargetType="{x:Type DataGrid}">
 			<Setter Property="Foreground" Value="{StaticResource color1}"/>
 		</Style>
+		
 
 	</Application.Resources>
 </Application>
