@@ -169,6 +169,11 @@ Overview of the map
 
 ![Alt text](img/screen4.png?raw=true "Screenshot")
 
+Animation of the temperature evolution over a day
+
+![Alt text](img/screen5.gif?raw=true "Screenshot")
+
+
 ## Authors
 Nicolas Lépy
 

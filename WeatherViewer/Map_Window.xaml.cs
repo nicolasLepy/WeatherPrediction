@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,6 +28,38 @@ namespace WeatherViewer
         private double _width;
         private double _height;
 
+
+        async Task Map(DateTime date, int hour, double p, int step)
+        {
+            CreateMap(date, hour, p, step);
+            await Task.Delay(400);
+        }
+
+        public void ThreadMap()
+        {
+
+            this.Dispatcher.Invoke(async () =>
+            {
+                int step = 20;
+                double p = 2;
+                DateTime date = new DateTime(281, 6, 15);
+
+                for (int i = 0; i < 24; i++)
+                {
+                    //Thread.Sleep(2000);
+                    Console.WriteLine(i);
+                    await Map(date, i, p, step);
+
+                }
+            });
+                /*string[] timeString = dpDate.Text.Split('/');
+                DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
+                double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
+
+                int step = int.Parse(tbStep.Text);*/
+
+            
+        }
 
         public Map_Window(Database database)
         {
@@ -53,12 +86,8 @@ namespace WeatherViewer
             return new Point(x, y);
         }
 
-        public void SetStations()
+        public void SetStations(DateTime date, int hour)
         {
-            string[] timeString = dpDate.Text.Split('/');
-            DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
-            int hour = int.Parse(tbHour.Text);
-
             foreach (City city in _database.Cities)
             {
                 Report today = city.GetReport(date);
@@ -120,25 +149,18 @@ namespace WeatherViewer
             }
         }
 
-        private void BtnCompute_Click(object sender, RoutedEventArgs e)
+        private void CreateMap(DateTime date, int hour, double p, int step)
         {
-
             ClearMap();
 
-            string[] timeString = dpDate.Text.Split('/');
-            DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
-            int hour = int.Parse(tbHour.Text);
-            double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
-
-            int step = int.Parse(tbStep.Text) ;
             int nbColumn = (int)_width / step;
             int nbLines = (int)_height / step;
-            for(int i = 0; i<nbLines; i++)
+            for (int i = 0; i < nbLines; i++)
             {
-                for(int j = 0;  j<nbColumn; j++)
+                for (int j = 0; j < nbColumn; j++)
                 {
                     Point pt = Screen2Map(new Point(step * j, step * i));
-                    double temperature = _database.Temperature(pt.X, pt.Y, date, hour,p);
+                    double temperature = _database.Temperature(pt.X, pt.Y, date, hour, p);
                     Rectangle rect = new Rectangle();
 
                     Color color = View_Utils.Temperature2Color(temperature);
@@ -147,17 +169,34 @@ namespace WeatherViewer
                     rect.Height = step;
                     rect.Margin = new Thickness(step * j, step * i, 0, 0);
                     canvas.Children.Add(rect);
-                    if(step > 25)
+                    if (step > 45)
                         DrawLabel(step * j, step * i, temperature.ToString("0.0"));
 
                 }
             }
 
 
-            SetStations();
+            SetStations(date,hour);
+
+        }
+
+        private void BtnCompute_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            string[] timeString = dpDate.Text.Split('/');
+            DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
+            int hour = int.Parse(tbHour.Text);
+            double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
+
+            int step = int.Parse(tbStep.Text);
+
+            CreateMap(date, hour, p, step);
+
 
         }
         
+
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
@@ -178,5 +217,10 @@ namespace WeatherViewer
             //Console.WriteLine(p.X + " - " + p.Y);
         }
 
+        private void BtnThread_Click(object sender, RoutedEventArgs e)
+        {
+            Thread t = new Thread(() => ThreadMap());
+            t.Start();
+        }
     }
 }

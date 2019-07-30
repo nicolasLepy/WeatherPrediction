@@ -16,5 +16,7 @@
 		<TextBox Name="tbP" Width="50" Height="15" VerticalAlignment="Top" Margin="0 70 0 0" HorizontalAlignment="Left"/>
 		<TextBox Name="tbStep" Width="50" Height="15" VerticalAlignment="Top" Margin="0 90 0 0" HorizontalAlignment="Left"/>
 		<Label Name="lbTemp" Width="50" Height="35" VerticalAlignment="Top" Margin="0 110 0 0" HorizontalAlignment="Left" Style="{StaticResource StyleLabelTempMax}" Content="88"/>
+		<Button Name="btnThread" Content="Animation" Width="60" Height="20" VerticalAlignment="Top" Margin="0 145 0 0" HorizontalAlignment="Left" Click="BtnThread_Click"/>
+
 	</Grid>
 </Window>
