@@ -124,10 +124,13 @@ A report is described by its minimal temperature (TMin), maximal temperature (TM
 
 ```
 SeasonDef,Season_Name,Begin,End,Min_Pressure,Max_Pressure,Winter_Season
+Region,RegionName,MapSizeX,MapSizeY,MapPath
 City,City name,X coordinate, Y coordinate,Altitude
 AddSeason,Season_Name
 Date,TMin,TMax
 ...
+EndCity
+EndRegion
 ```
 
 Example
@@ -135,20 +138,22 @@ Example
 ```
 SeasonDef,StandardTatooine_Winter,01/01,01/06,1000,1020,True
 SeasonDef,StandardTatooine_Summer,01/06,31/21,1015,1035,False
+Region,Tatooine,1900,1250,tatooine.png
 City,Bestine,1174,611
 AddSeason,StandardTatooine_Winter
 AddSeason,StandardTatooine_Summer
 01/06/0280,18,36
 02/06/0280,18,37
 03/06/0280,18,37
-04/06/0280,18,37
+EndCity
 City,Carnthout,1280,711
 AddSeason,StandardTatooine_Winter
 AddSeason,StandardTatooine_Summer
 01/06/0280,17,34
 02/06/0280,17,34
 03/06/0280,17,35
-04/06/0280,17,35
+EndCity
+EndRegion
 ```
 
 ## Example
