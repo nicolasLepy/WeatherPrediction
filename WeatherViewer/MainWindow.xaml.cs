@@ -40,27 +40,29 @@ namespace WeatherViewer
         private void UpdateChartPressures()
         {
             SeriesCollection_Pressure.Clear();
-            foreach(City city in _database.Cities)
+            foreach (Region region in _database.Regions)
             {
-                string title = city.Name;
-                List<double> reports = new List<double>();
-                foreach(Report rp in city.Forecast)
+                foreach (City city in region.Cities)
                 {
-                    reports.Add(rp.FirstPressure().Value);
+                    string title = city.Name;
+                    List<double> reports = new List<double>();
+                    foreach (Report rp in city.Forecast)
+                    {
+                        reports.Add(rp.FirstPressure().Value);
+                    }
+                    LineSeries ls = new LineSeries();
+                    ls.Title = title;
+                    ChartValues<double> cv = new ChartValues<double>(reports);
+                    ls.Values = cv;
+                    ls.Stroke = Brushes.DarkGreen;
+                    ls.Fill = Brushes.Transparent;
+                    SeriesCollection_Pressure.Add(ls);
                 }
-                LineSeries ls = new LineSeries();
-                ls.Title = title;
-                ChartValues<double> cv = new ChartValues<double>(reports);
-                ls.Values = cv;
-                ls.Stroke = Brushes.DarkGreen;
-                ls.Fill = Brushes.Transparent;
-                SeriesCollection_Pressure.Add(ls);
 
-                
             }
 
             List<string> labelsList = new List<string>();
-            foreach (Report rp in _database.Cities[0].Forecast)
+            foreach (Report rp in _database.Regions[0].Cities[0].Forecast)
             {
                 labelsList.Add(rp.Day.ToShortDateString());
             }
@@ -72,39 +74,43 @@ namespace WeatherViewer
         private void UpdateChartTemperatures()
         {
             SeriesCollection.Clear();
-            foreach (City city in _database.Cities)
+            foreach(Region region in _database.Regions)
             {
-                string title = city.Name + " max";
-                List<double> reports = new List<double>();
-                foreach (Report rp in city.Forecast)
+                foreach (City city in region.Cities)
                 {
-                    reports.Add(rp.TMax);
-                }
-                LineSeries ls = new LineSeries();
-                ls.Title = title;
-                ChartValues<double> cv = new ChartValues<double>(reports);
-                ls.Values = cv;
-                ls.Stroke = Brushes.IndianRed;
-                ls.Fill = Brushes.Transparent;
-                SeriesCollection.Add(ls);
+                    string title = city.Name + " max";
+                    List<double> reports = new List<double>();
+                    foreach (Report rp in city.Forecast)
+                    {
+                        reports.Add(rp.TMax);
+                    }
+                    LineSeries ls = new LineSeries();
+                    ls.Title = title;
+                    ChartValues<double> cv = new ChartValues<double>(reports);
+                    ls.Values = cv;
+                    ls.Stroke = Brushes.IndianRed;
+                    ls.Fill = Brushes.Transparent;
+                    SeriesCollection.Add(ls);
 
-                title = city.Name + " min";
-                reports = new List<double>();
-                foreach (Report rp in city.Forecast)
-                {
-                    reports.Add(rp.TMin);
+                    title = city.Name + " min";
+                    reports = new List<double>();
+                    foreach (Report rp in city.Forecast)
+                    {
+                        reports.Add(rp.TMin);
+                    }
+                    ls = new LineSeries();
+                    ls.Title = title;
+                    cv = new ChartValues<double>(reports);
+                    ls.Values = cv;
+                    ls.Stroke = Brushes.LightSkyBlue;
+                    ls.Fill = Brushes.Transparent;
+                    SeriesCollection.Add(ls);
                 }
-                ls = new LineSeries();
-                ls.Title = title;
-                cv = new ChartValues<double>(reports);
-                ls.Values = cv;
-                ls.Stroke = Brushes.LightSkyBlue;
-                ls.Fill = Brushes.Transparent;
-                SeriesCollection.Add(ls);
             }
+            
 
             List<string> labelsList = new List<string>();
-            foreach(Report rp in _database.Cities[0].Forecast)
+            foreach(Report rp in _database.Regions[0].Cities[0].Forecast)
             {
                 labelsList.Add(rp.Day.ToShortDateString());
             }
@@ -134,9 +140,12 @@ namespace WeatherViewer
         private void RestartComputation()
         {
             _database.ResetForecast();
-            _forecast = new ForecastGenerator(_database, new DateTime(281, 5, 31), Double.Parse(tbAlpha.Text, CultureInfo.InvariantCulture), Double.Parse(tbBeta.Text, CultureInfo.InvariantCulture), Double.Parse(tbGamma.Text, CultureInfo.InvariantCulture));
-            for (int i = 0; i < 60; i++)
-                _forecast.GenerateDay();
+            foreach(Region region in _database.Regions)
+            {
+                _forecast = new ForecastGenerator(region, new DateTime(281, 5, 31), Double.Parse(tbAlpha.Text, CultureInfo.InvariantCulture), Double.Parse(tbBeta.Text, CultureInfo.InvariantCulture), Double.Parse(tbGamma.Text, CultureInfo.InvariantCulture));
+                for (int i = 0; i < 60; i++)
+                    _forecast.GenerateDay();
+            }
             UpdateChartTemperatures();
             UpdateChartPressures();
             DataContext = this;
@@ -183,7 +192,7 @@ namespace WeatherViewer
 
         private void BtnMap_Click(object sender, RoutedEventArgs e)
         {
-            Map_Window mw = new Map_Window(_database);
+            Map_Window mw = new Map_Window(_database.Regions[0]);
             mw.Show();
         }
     }

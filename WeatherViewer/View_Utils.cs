@@ -10,6 +10,24 @@ namespace WeatherViewer
     public class View_Utils
     {
 
+        public static Color PressureToColor(double pressure)
+        {
+            Color res = new Color();
+            res.A = 140;
+            res.G = 0;
+            res.R = 0;
+
+            if (pressure < 960) pressure = 960;
+            pressure -= 960;
+            byte blue = (byte)(pressure * 2.68);
+            if (blue > 255) blue = 255;
+
+            res.B = blue;
+            
+
+            return res;
+        }
+
         public static Color Temperature2Color(double temperature)
         {
             Color res = new Color();
@@ -40,8 +58,8 @@ namespace WeatherViewer
             if(temperature > 0 && temperature < 30)
             {
                 double tp = 15 - Math.Abs(temperature - 15);
-                green = tp * 17;
-                if (green > 255) green = 255;
+                green = tp * 10;
+                if (green > 150) green = 150;
             }
 
             

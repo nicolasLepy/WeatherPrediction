@@ -24,7 +24,7 @@ namespace WeatherViewer
     public partial class Map_Window : Window
     {
 
-        private Database _database;
+        private Region _region;
         private double _width;
         private double _height;
 
@@ -32,7 +32,7 @@ namespace WeatherViewer
         async Task Map(DateTime date, int hour, double p, int step)
         {
             CreateMap(date, hour, p, step);
-            await Task.Delay(400);
+            await Task.Delay(200);
         }
 
         public void ThreadMap()
@@ -40,10 +40,12 @@ namespace WeatherViewer
 
             this.Dispatcher.Invoke(async () =>
             {
-                int step = 20;
-                double p = 2;
-                DateTime date = new DateTime(281, 6, 15);
+                string[] timeString = dpDate.Text.Split('/');
+                DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
+                double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
 
+                int step = int.Parse(tbStep.Text);
+                
                 for (int i = 0; i < 24; i++)
                 {
                     //Thread.Sleep(2000);
@@ -52,19 +54,15 @@ namespace WeatherViewer
 
                 }
             });
-                /*string[] timeString = dpDate.Text.Split('/');
-                DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
-                double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
-
-                int step = int.Parse(tbStep.Text);*/
+                
 
             
         }
 
-        public Map_Window(Database database)
+        public Map_Window(Region region)
         {
             InitializeComponent();
-            _database = database;
+            _region = region;
             imgMap.Source = new BitmapImage(new Uri(View_Utils.IconPath("tatooine_map.png")));
             _width = imgMap.Width;
             _height = imgMap.Height;
@@ -88,7 +86,7 @@ namespace WeatherViewer
 
         public void SetStations(DateTime date, int hour)
         {
-            foreach (City city in _database.Cities)
+            foreach (City city in _region.Cities)
             {
                 Report today = city.GetReport(date);
                 Report yesturday = city.GetReport(date.AddDays(-1));
@@ -100,12 +98,6 @@ namespace WeatherViewer
                 double XOnMap = p.X;
                 double YOnMap = p.Y;
                 DrawLabel(XOnMap, YOnMap, interpolation.Interpolate(hour).ToString("0.0"));
-                /*Label label = new Label();
-                label.Content = interpolation.Interpolate(hour).ToString("0.0");
-                label.Margin = new Thickness(XOnMap, YOnMap, 0, 0);
-                label.Style = Application.Current.FindResource("StyleLabelMap") as Style;
-
-                canvas.Children.Add(label);*/
 
             }
         }
@@ -160,7 +152,7 @@ namespace WeatherViewer
                 for (int j = 0; j < nbColumn; j++)
                 {
                     Point pt = Screen2Map(new Point(step * j, step * i));
-                    double temperature = _database.Temperature(pt.X, pt.Y, date, hour, p);
+                    double temperature = _region.Temperature(pt.X, pt.Y, date, hour, p);
                     Rectangle rect = new Rectangle();
 
                     Color color = View_Utils.Temperature2Color(temperature);
@@ -174,16 +166,14 @@ namespace WeatherViewer
 
                 }
             }
-
-
+            
             SetStations(date,hour);
 
         }
 
         private void BtnCompute_Click(object sender, RoutedEventArgs e)
         {
-
-
+            
             string[] timeString = dpDate.Text.Split('/');
             DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
             int hour = int.Parse(tbHour.Text);
@@ -196,8 +186,6 @@ namespace WeatherViewer
 
         }
         
-
-
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
             try
@@ -209,7 +197,7 @@ namespace WeatherViewer
                 double pp = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
 
                 Point onMap = Screen2Map(new Point(p.X, p.Y));
-                double temp = _database.Temperature(onMap.X, onMap.Y, date, hour, pp);
+                double temp = _region.Temperature(onMap.X, onMap.Y, date, hour, pp);
                 lbTemp.Content = temp.ToString("0.0");
             }
             catch { }
@@ -221,6 +209,11 @@ namespace WeatherViewer
         {
             Thread t = new Thread(() => ThreadMap());
             t.Start();
+        }
+
+        private void BtnComputePressures_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

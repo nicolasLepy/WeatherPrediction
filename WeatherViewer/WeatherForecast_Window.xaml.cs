@@ -27,9 +27,12 @@ namespace WeatherViewer
             _database = database;
 
             InitializeComponent();
-            foreach(City city in _database.Cities)
+            foreach(Region region in _database.Regions)
             {
-                cbCities.Items.Add(city);
+                foreach (City city in region.Cities)
+                {
+                    cbCities.Items.Add(city);
+                }
             }
         }
 
