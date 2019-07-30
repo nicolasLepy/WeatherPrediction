@@ -13,14 +13,15 @@ namespace WeatherViewer
         public static Color PressureToColor(double pressure)
         {
             Color res = new Color();
-            res.A = 140;
+            res.A = 190;
             res.G = 0;
             res.R = 0;
 
-            if (pressure < 960) pressure = 960;
-            pressure -= 960;
-            byte blue = (byte)(pressure * 2.68);
+            if (pressure < 990) pressure = 990;
+            pressure -= 990;
+            byte blue = (byte)(pressure * 4);
             if (blue > 255) blue = 255;
+            blue = (byte)(255 - blue);
 
             res.B = blue;
             

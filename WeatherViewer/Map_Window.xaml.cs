@@ -31,8 +31,8 @@ namespace WeatherViewer
 
         async Task Map(DateTime date, int hour, double p, int step)
         {
-            CreateMap(date, hour, p, step);
-            await Task.Delay(200);
+            CreateMap(date, hour, p, step,2);
+            await Task.Delay(300);
         }
 
         public void ThreadMap()
@@ -84,14 +84,19 @@ namespace WeatherViewer
             return new Point(x, y);
         }
 
-        public void SetStations(DateTime date, int hour)
+        public void SetStations(DateTime date, int hour, int indicator)
         {
             foreach (City city in _region.Cities)
             {
                 Report today = city.GetReport(date);
                 Report yesturday = city.GetReport(date.AddDays(-1));
                 Report tomorrow = city.GetReport(date.AddDays(1));
-                IInterpolation interpolation = Utils.TemperaturesInterpolation(yesturday.TMax, today.TMin, today.TMax, tomorrow.TMin);
+
+                IInterpolation interpolation;
+                if (indicator == 1)
+                    interpolation = Utils.TemperaturesInterpolation(yesturday.TMax, today.TMin, today.TMax, tomorrow.TMin);
+                else
+                    interpolation = Utils.PressuresInterpolation(yesturday.LastPressure(), today.Pressures, tomorrow.FirstPressure());
 
                 Point p = Map2Screen(new Point(city.X, city.Y));
 
@@ -141,7 +146,17 @@ namespace WeatherViewer
             }
         }
 
-        private void CreateMap(DateTime date, int hour, double p, int step)
+        /// <summary>
+        /// Indicateur : 
+        /// 1 : température
+        /// 2 : athom
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="hour"></param>
+        /// <param name="p"></param>
+        /// <param name="step"></param>
+        /// <param name="indicateur"></param>
+        private void CreateMap(DateTime date, int hour, double p, int step, int indicator)
         {
             ClearMap();
 
@@ -152,10 +167,23 @@ namespace WeatherViewer
                 for (int j = 0; j < nbColumn; j++)
                 {
                     Point pt = Screen2Map(new Point(step * j, step * i));
-                    double temperature = _region.Temperature(pt.X, pt.Y, date, hour, p);
-                    Rectangle rect = new Rectangle();
 
-                    Color color = View_Utils.Temperature2Color(temperature);
+                    double temperature = 0;
+                    Color color = Colors.Beige;
+
+                    if(indicator == 1)
+                    {
+                        temperature = _region.Temperature(pt.X, pt.Y, date, hour, p);
+                        color = View_Utils.Temperature2Color(temperature);
+                    }
+
+                    else if (indicator == 2)
+                    {
+                        temperature = _region.Pressure(pt.X, pt.Y, date, hour, p);
+                        color = View_Utils.PressureToColor(temperature);
+                    }
+
+                    Rectangle rect = new Rectangle();
                     rect.Fill = new SolidColorBrush(color);
                     rect.Width = step;
                     rect.Height = step;
@@ -167,7 +195,7 @@ namespace WeatherViewer
                 }
             }
             
-            SetStations(date,hour);
+            SetStations(date,hour,indicator);
 
         }
 
@@ -181,7 +209,7 @@ namespace WeatherViewer
 
             int step = int.Parse(tbStep.Text);
 
-            CreateMap(date, hour, p, step);
+            CreateMap(date, hour, p, step,1);
 
 
         }
@@ -213,7 +241,14 @@ namespace WeatherViewer
 
         private void BtnComputePressures_Click(object sender, RoutedEventArgs e)
         {
+            string[] timeString = dpDate.Text.Split('/');
+            DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
+            int hour = int.Parse(tbHour.Text);
+            double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
 
+            int step = int.Parse(tbStep.Text);
+
+            CreateMap(date, hour, p, step, 2);
         }
     }
 }

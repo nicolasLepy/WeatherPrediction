@@ -37,7 +37,6 @@ namespace WeatherViewer
                 {
                     cbCities.Items.Add(city);
                 }
-
             }
         }
 

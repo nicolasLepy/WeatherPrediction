@@ -178,6 +178,9 @@ Animation of the temperature evolution over a day
 
 ![Alt text](img/screen5.gif?raw=true "Screenshot")
 
+Animation of the athmospheric pressure evolution over a day
+
+![Alt text](img/screen6.gif?raw=true "Screenshot")
 
 ## Authors
 Nicolas Lépy

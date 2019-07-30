@@ -50,6 +50,33 @@ namespace WeatherPrediction
             return 1.0 / Utils.Distance(xx, xy, xkx, xky);
         }
 
+        public double Indicator(double x, double y, DateTime day, int hour, double p, int indicator_number)
+        {
+            double numerator = 0;
+            double denomiator = 0;
+            foreach (City city in _cities)
+            {
+                Report yesturday = city.GetReport(day.AddDays(-1));
+                Report today = city.GetReport(day);
+                Report tomorrow = city.GetReport(day.AddDays(1));
+
+                IInterpolation interpolation;
+                if(indicator_number == 1)
+                    interpolation = Utils.TemperaturesInterpolation(yesturday.TMax, today.TMin, today.TMax, tomorrow.TMin);
+                else
+                    interpolation = Utils.PressuresInterpolation(yesturday.LastPressure(), today.Pressures, tomorrow.FirstPressure());
+
+                double cityVariable = interpolation.Interpolate(hour);
+
+                double weight = Math.Pow(wk(x, y, city.X, city.Y), p);
+                denomiator += weight;
+                numerator += weight * cityVariable;
+            }
+
+            double localTemp = (numerator + 0.0) / (denomiator + 0.0);
+            return localTemp;
+        }
+
         /// <summary>
         /// Get hourly temperature of a point on map
         /// </summary>
@@ -59,27 +86,12 @@ namespace WeatherPrediction
         /// <returns></returns>
         public double Temperature(double x, double y, DateTime day, int hour, double p)
         {
+            return Indicator(x, y, day, hour, p, 1);
+        }
 
-            double numerator = 0;
-            double denomiator = 0;
-            foreach (City city in _cities)
-            {
-                Report yesturday = city.GetReport(day.AddDays(-1));
-                Report today = city.GetReport(day);
-                Report tomorrow = city.GetReport(day.AddDays(1));
-
-                IInterpolation interpolation = Utils.TemperaturesInterpolation(yesturday.TMax, today.TMin, today.TMax, tomorrow.TMin);
-
-                double cityTemperature = interpolation.Interpolate(hour);
-
-                double weight = Math.Pow(wk(x, y, city.X, city.Y), p);
-                denomiator += weight;
-                numerator += weight * cityTemperature;
-            }
-
-            double localTemp = (numerator + 0.0) / (denomiator + 0.0);
-            return localTemp;
-
+        public double Pressure(double x, double y, DateTime day, int hour, double p)
+        {
+            return Indicator(x, y, day, hour, p, 2);
         }
 
     }
