@@ -17,8 +17,9 @@
 		<TextBox Name="tbStep" Width="50" Height="15" VerticalAlignment="Top" Margin="0 90 0 0" HorizontalAlignment="Left"/>
 		<Button Name="btnThread" Content="Animation" Width="60" Height="20" VerticalAlignment="Top" Margin="0 110 0 0" HorizontalAlignment="Left" Click="BtnThread_Click"/>
 
-		<Button Name="btnComputePressures" Content="Pressures" Width="50" Height="20" VerticalAlignment="Top" Margin="0 145 0 0" HorizontalAlignment="Left" Click="BtnComputePressures_Click"/>
-		<Label Name="lbTemp" Width="50" Height="35" VerticalAlignment="Top" Margin="0 165 0 0" HorizontalAlignment="Left" Style="{StaticResource StyleLabelTempMax}" Content="88"/>
+		<Button Name="btnComputePressures" Content="Pressures" Width="60" Height="20" VerticalAlignment="Top" Margin="0 145 0 0" HorizontalAlignment="Left" Click="BtnComputePressures_Click"/>
+		<Button Name="btnComputeCloudiness" Content="Cloudiness" Width="60" Height="20" VerticalAlignment="Top" Margin="0 170 0 0" HorizontalAlignment="Left" Click="BtnComputeCloudiness_Click"/>
+		<Label Name="lbTemp" Width="50" Height="35" VerticalAlignment="Top" Margin="0 190 0 0" HorizontalAlignment="Left" Style="{StaticResource StyleLabelTempMax}" Content="88"/>
 
 	</Grid>
 </Window>

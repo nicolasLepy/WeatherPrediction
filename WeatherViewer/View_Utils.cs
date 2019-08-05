@@ -10,6 +10,20 @@ namespace WeatherViewer
     public class View_Utils
     {
 
+        public static Color Cloudiness2Color(double cloudiness)
+        {
+            Color res = new Color();
+            res.R = 255;
+            res.G = 255;
+            res.B = 255;
+            float value = (float)cloudiness * 3;
+            if (value > 1)
+                value = 1;
+            res.ScA = value;
+
+            return res;
+        }
+
         public static Color PressureToColor(double pressure)
         {
             Color res = new Color();

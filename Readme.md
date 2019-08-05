@@ -5,6 +5,8 @@ Weather Prediction is a very simple stochastic algorithm for predicting weather 
 * Predicting temperature
 * Predicting humidity
 * Predicting weather
+* Predicting cloudiness
+* Predicting the wind
 * Add indicators (Humidex, Windchill)
 
 ## Algorithm
@@ -181,6 +183,10 @@ Animation of the temperature evolution over a day
 Animation of the athmospheric pressure evolution over a day
 
 ![Alt text](img/screen6.gif?raw=true "Screenshot")
+
+Animation of the cloudiness evolution over a day (assuming there is a water source in the southeast corner of the map)
+
+![Alt text](img/screen7.gif?raw=true "Screenshot")
 
 ## Authors
 Nicolas Lépy

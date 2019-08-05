@@ -120,6 +120,14 @@ namespace WeatherPrediction
                 city.Forecast.Add(report);
             }
 
+            //Regional reports
+            for(int hour = 0; hour<24; hour++)
+            {
+                Matrix pressures = Utils.GeneratePressuresMatrix(_region, _day, hour);
+                Matrix report = _region.LastCloudinessReport().Copy();
+                report.ComputeCloudiness(pressures, _region.WaterMap);
+                _region.CloudinessReports.Add(new RegionalReport(_day,hour, report));
+            }
         }
 
     }

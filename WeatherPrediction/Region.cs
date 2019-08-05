@@ -15,20 +15,46 @@ namespace WeatherPrediction
         private double _mapSizeY;
         private string _mapPath;
         private List<City> _cities;
+        private Matrix _waterMap;
+        private List<RegionalReport> _cloudinessReports;
 
         public string Name { get => _name; }
         public double MapSizeX { get => _mapSizeX; }
         public double MapSizeY { get => _mapSizeY; }
         public string MapPath { get => _mapPath; }
         public List<City> Cities { get => _cities; }
+        public Matrix WaterMap { get => _waterMap; }
+        public List<RegionalReport> CloudinessReports { get => _cloudinessReports; }
 
-        public Region(string name, double mapSizeX, double mapSizeY, string mapPath)
+        public Region(string name, double mapSizeX, double mapSizeY, string mapPath, Matrix waterMap)
         {
             _name = name;
             _mapSizeX = mapSizeX;
             _mapSizeY = mapSizeY;
             _mapPath = mapPath;
             _cities = new List<City>();
+            _waterMap = waterMap;
+            _cloudinessReports = new List<RegionalReport>();
+        }
+
+        public Matrix LastCloudinessReport()
+        {
+            Matrix res;
+            if (CloudinessReports.Count > 0)
+                res = CloudinessReports[CloudinessReports.Count - 1].Matrix;
+            else
+                res = new Matrix(Utils.MATRIX_SIZE, Utils.MATRIX_SIZE, 0);
+            return res;
+        }
+
+        public Matrix GetCloudinessReport(DateTime date, int hour)
+        {
+            Matrix res = null;
+            foreach(RegionalReport rr in _cloudinessReports)
+            {
+                if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day && rr.Hour == hour) res = rr.Matrix;
+            }
+            return res;
         }
 
         public string ShowForecast()
@@ -59,6 +85,15 @@ namespace WeatherPrediction
                 Report yesturday = city.GetReport(day.AddDays(-1));
                 Report today = city.GetReport(day);
                 Report tomorrow = city.GetReport(day.AddDays(1));
+                
+                if(yesturday == null)
+                {
+                    yesturday = today;
+                }
+                if(tomorrow == null)
+                {
+                    tomorrow = today;
+                }
 
                 IInterpolation interpolation;
                 if(indicator_number == 1)
@@ -66,7 +101,10 @@ namespace WeatherPrediction
                 else
                     interpolation = Utils.PressuresInterpolation(yesturday.LastPressure(), today.Pressures, tomorrow.FirstPressure());
 
+
                 double cityVariable = interpolation.Interpolate(hour);
+                
+
 
                 double weight = Math.Pow(wk(x, y, city.X, city.Y), p);
                 denomiator += weight;
@@ -92,6 +130,22 @@ namespace WeatherPrediction
         public double Pressure(double x, double y, DateTime day, int hour, double p)
         {
             return Indicator(x, y, day, hour, p, 2);
+        }
+
+        public double Cloudiness(double x, double y, DateTime day, int hour, double p, int widthMap, int heightMap)
+        {
+            int intX = (int)x;
+            int intY = (int)y;
+            int indiceX = (int)((Utils.MATRIX_SIZE / (widthMap+0.0))*intX);
+            int indiceY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
+
+            Matrix cloudiness = GetCloudinessReport(day, hour);
+            return cloudiness.Get(indiceX,indiceY);
+        }
+
+        public override string ToString()
+        {
+            return _name;
         }
 
     }

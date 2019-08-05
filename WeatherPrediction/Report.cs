@@ -97,16 +97,7 @@ namespace WeatherPrediction
                     Console.WriteLine(_day.ToShortDateString() + " don't have season.");
                 }
                 _weather.Add(z);
-                Console.WriteLine(i + "h : " + z);
             }
-            Console.WriteLine("------");
-
-            
-
-            
-
-
-            
             
         }
     }

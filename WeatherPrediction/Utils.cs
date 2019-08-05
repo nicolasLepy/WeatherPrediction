@@ -10,6 +10,7 @@ namespace WeatherPrediction
 {
     public class Utils
     {
+        public static int MATRIX_SIZE = 20;
 
         public static double Distance(double xa, double ya, double xb, double yb)
         {
@@ -61,6 +62,33 @@ namespace WeatherPrediction
             valuesPressure.Add(firstPressure_tommorow.Value);
             return Interpolate.Polynomial(hourPressure, valuesPressure);
         }
+
+        /// <summary>
+        /// Generate a matrix with pressures of a region
+        /// </summary>
+        /// <param name="region"></param>
+        /// <param name="date"></param>
+        /// <param name="hour"></param>
+        /// <returns></returns>
+        public static Matrix GeneratePressuresMatrix(Region region, DateTime date, int hour)
+        {   
+            Matrix res = new Matrix(MATRIX_SIZE, MATRIX_SIZE, 0);
+
+            for(int i = 0; i<MATRIX_SIZE; i++)
+            {
+                for(int j = 0; j<MATRIX_SIZE; j++)
+                {
+                    double iOnMap = (region.MapSizeX / (MATRIX_SIZE+0.0)) * i;
+                    double jOnMap = (region.MapSizeY / (MATRIX_SIZE + 0.0)) * i;
+                    double value = region.Indicator(iOnMap, jOnMap, date, hour, 2, 2);
+                    res.Set(i,j,value);
+                }
+            }
+
+            return res;
+        }
+
+        
 
     }
 }

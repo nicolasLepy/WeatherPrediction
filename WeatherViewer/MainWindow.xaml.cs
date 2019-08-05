@@ -133,8 +133,11 @@ namespace WeatherViewer
 
         private void UpdateWidgets()
         {
-            
-
+            cbRegions.Items.Clear();
+            foreach(Region region in _database.Regions)
+            {
+                cbRegions.Items.Add(region);
+            }
         }
 
         private void RestartComputation()
@@ -192,8 +195,12 @@ namespace WeatherViewer
 
         private void BtnMap_Click(object sender, RoutedEventArgs e)
         {
-            Map_Window mw = new Map_Window(_database.Regions[0]);
-            mw.Show();
+            Region region = cbRegions.SelectedItem as Region;
+            if(region != null)
+            {
+                Map_Window mw = new Map_Window(region);
+                mw.Show();
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WeatherPrediction;
+using Matrix = WeatherPrediction.Matrix;
 
 namespace WeatherViewer
 {
@@ -31,8 +32,9 @@ namespace WeatherViewer
 
         async Task Map(DateTime date, int hour, double p, int step)
         {
-            CreateMap(date, hour, p, step,2);
-            await Task.Delay(300);
+            CreateMap(date, hour, p, step,3);
+            lbTemp.Content = hour.ToString() + "h";
+            await Task.Delay(400);
         }
 
         public void ThreadMap()
@@ -46,10 +48,15 @@ namespace WeatherViewer
 
                 int step = int.Parse(tbStep.Text);
                 
+                /*
+                for(int i = 0; i<50; i++)
+                {
+                    date = date.AddDays(1);
+                    await Map(date, 17, p, step);
+                }*/
+
                 for (int i = 0; i < 24; i++)
                 {
-                    //Thread.Sleep(2000);
-                    Console.WriteLine(i);
                     await Map(date, i, p, step);
 
                 }
@@ -63,7 +70,7 @@ namespace WeatherViewer
         {
             InitializeComponent();
             _region = region;
-            imgMap.Source = new BitmapImage(new Uri(View_Utils.IconPath("tatooine_map.png")));
+            imgMap.Source = new BitmapImage(new Uri(View_Utils.IconPath(_region.MapPath)));
             _width = imgMap.Width;
             _height = imgMap.Height;
 
@@ -183,13 +190,19 @@ namespace WeatherViewer
                         color = View_Utils.PressureToColor(temperature);
                     }
 
+                    else if(indicator == 3)
+                    {
+                        temperature = _region.Cloudiness(pt.X, pt.Y, date, hour, p, (int)_region.MapSizeX, (int)_region.MapSizeY);
+                        color = View_Utils.Cloudiness2Color(temperature);
+                    }
+
                     Rectangle rect = new Rectangle();
                     rect.Fill = new SolidColorBrush(color);
                     rect.Width = step;
                     rect.Height = step;
                     rect.Margin = new Thickness(step * j, step * i, 0, 0);
                     canvas.Children.Add(rect);
-                    if (step > 45)
+                    if (step > 145)
                         DrawLabel(step * j, step * i, temperature.ToString("0.0"));
 
                 }
@@ -249,6 +262,21 @@ namespace WeatherViewer
             int step = int.Parse(tbStep.Text);
 
             CreateMap(date, hour, p, step, 2);
+        }
+
+        private void BtnComputeCloudiness_Click(object sender, RoutedEventArgs e)
+        {
+            string[] timeString = dpDate.Text.Split('/');
+            DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
+            int hour = int.Parse(tbHour.Text);
+
+            double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
+
+            int step = int.Parse(tbStep.Text);
+
+
+            CreateMap(date, hour, p, step, 3);
+            
         }
     }
 }

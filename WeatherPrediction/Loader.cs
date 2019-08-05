@@ -17,7 +17,36 @@ namespace WeatherPrediction
             _database = database;
         }
 
-        public void LoadDB(string chemin)
+        public Matrix LoadWaterMap(string path)
+        {
+            Matrix matrix = null;
+            System.IO.StreamReader file = new System.IO.StreamReader(System.IO.Directory.GetCurrentDirectory() + "\\waterMaps\\" + path);
+            int size = 0;
+            int lineNumber = 0;
+            int columnNumber = 0;
+            string line;
+            while ((line = file.ReadLine()) != null)
+            {
+                string[] split = line.Split(',');
+                if (size == 0)
+                {
+                    size = split.Length;
+                    matrix = new Matrix(size, size, 0);
+                }
+                columnNumber = 0;
+                foreach (string s in split)
+                {
+                    double value = Double.Parse(s, CultureInfo.InvariantCulture);
+                    matrix.Set(lineNumber, columnNumber, value);
+                    columnNumber++;
+                }
+                lineNumber++;
+            }
+            file.Close();
+            return matrix;
+        }
+
+        public void LoadDB(string path)
         {
             _database.Regions.Clear();
             _database.Seasons.Clear();
@@ -25,7 +54,7 @@ namespace WeatherPrediction
             City city = null;
             Region region = null;
             // Read the file and display it line by line.  
-            System.IO.StreamReader file = new System.IO.StreamReader(chemin);
+            System.IO.StreamReader file = new System.IO.StreamReader(path);
             while ((line = file.ReadLine()) != null)
             {
 
@@ -37,7 +66,9 @@ namespace WeatherPrediction
                     int x = int.Parse(split[2]);
                     int y = int.Parse(split[3]);
                     string map = split[4];
-                    region = new Region(name, x, y, map);
+                    string pathWaterMap = split[5];
+                    Matrix waterMap = LoadWaterMap(pathWaterMap);
+                    region = new Region(name, x, y, map,waterMap);
                 }
                 else if (split[0] == "EndRegion")
                 {
