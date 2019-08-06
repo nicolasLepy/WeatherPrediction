@@ -91,6 +91,18 @@ Then,
 
 Finally, we obtain a number between 1 and 32, corresponding to the coming weather
 
+### Predicting cloudiness
+
+To estimate cloudiness value around the map, a matrix is built representing areas of the map with its cloudiness value.
+
+From waters source, water is evaporated and form clouds. Then, clouds are dispersed around the map, but thanks to athmospheric pressures, clouds can more easily follow one direction or another.
+
+### Predicting wind
+
+Currently, an edge detection is computed on cloudiness matrix to estimate wind on the map, using the following kernel :
+
+![Alt text](img/15.gif)
+
 ### Hourly forecasts
 
 Polynomial interpolation is used to determine temperature, pressure and humidity at a specific time thanks to min and max values.
@@ -187,6 +199,10 @@ Animation of the athmospheric pressure evolution over a day
 Animation of the cloudiness evolution over a day (assuming there is a water source in the southeast corner of the map)
 
 ![Alt text](img/screen7.gif?raw=true "Screenshot")
+
+Animation of the wind evolution over a day
+
+![Alt text](img/screen8.gif?raw=true "Screenshot")
 
 ## Authors
 Nicolas Lépy

@@ -32,7 +32,7 @@ namespace WeatherViewer
 
         async Task Map(DateTime date, int hour, double p, int step)
         {
-            CreateMap(date, hour, p, step,3);
+            CreateMap(date, hour, p, step,4);
             lbTemp.Content = hour.ToString() + "h";
             await Task.Delay(400);
         }
@@ -196,6 +196,12 @@ namespace WeatherViewer
                         color = View_Utils.Cloudiness2Color(temperature);
                     }
 
+                    else if(indicator == 4)
+                    {
+                        temperature = _region.Wind(pt.X, pt.Y, date, hour, p, (int)_region.MapSizeX, (int)_region.MapSizeY);
+                        color = View_Utils.Wind2Color(temperature);
+                    }
+
                     Rectangle rect = new Rectangle();
                     rect.Fill = new SolidColorBrush(color);
                     rect.Width = step;
@@ -277,6 +283,20 @@ namespace WeatherViewer
 
             CreateMap(date, hour, p, step, 3);
             
+        }
+
+        private void BtnComputeWind_Click(object sender, RoutedEventArgs e)
+        {
+            string[] timeString = dpDate.Text.Split('/');
+            DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
+            int hour = int.Parse(tbHour.Text);
+
+            double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
+
+            int step = int.Parse(tbStep.Text);
+
+
+            CreateMap(date, hour, p, step, 4);
         }
     }
 }

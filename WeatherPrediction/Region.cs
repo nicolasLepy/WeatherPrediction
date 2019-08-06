@@ -16,6 +16,7 @@ namespace WeatherPrediction
         private string _mapPath;
         private List<City> _cities;
         private Matrix _waterMap;
+        private List<RegionalReport> _windReports;
         private List<RegionalReport> _cloudinessReports;
 
         public string Name { get => _name; }
@@ -24,6 +25,7 @@ namespace WeatherPrediction
         public string MapPath { get => _mapPath; }
         public List<City> Cities { get => _cities; }
         public Matrix WaterMap { get => _waterMap; }
+        public List<RegionalReport> WindReports { get => _windReports; }
         public List<RegionalReport> CloudinessReports { get => _cloudinessReports; }
 
         public Region(string name, double mapSizeX, double mapSizeY, string mapPath, Matrix waterMap)
@@ -35,6 +37,7 @@ namespace WeatherPrediction
             _cities = new List<City>();
             _waterMap = waterMap;
             _cloudinessReports = new List<RegionalReport>();
+            _windReports = new List<RegionalReport>();
         }
 
         public Matrix LastCloudinessReport()
@@ -51,6 +54,16 @@ namespace WeatherPrediction
         {
             Matrix res = null;
             foreach(RegionalReport rr in _cloudinessReports)
+            {
+                if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day && rr.Hour == hour) res = rr.Matrix;
+            }
+            return res;
+        }
+
+        public Matrix GetWindReport(DateTime date, int hour)
+        {
+            Matrix res = null;
+            foreach (RegionalReport rr in _windReports)
             {
                 if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day && rr.Hour == hour) res = rr.Matrix;
             }
@@ -141,6 +154,17 @@ namespace WeatherPrediction
 
             Matrix cloudiness = GetCloudinessReport(day, hour);
             return cloudiness.Get(indiceX,indiceY);
+        }
+
+        public double Wind(double x, double y, DateTime day, int hour, double p, int widthMap, int heightMap)
+        {
+            int intX = (int)x;
+            int intY = (int)y;
+            int indiceX = (int)((Utils.MATRIX_SIZE / (widthMap + 0.0)) * intX);
+            int indiceY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
+
+            Matrix wind = GetWindReport(day, hour);
+            return wind.Get(indiceX, indiceY);
         }
 
         public override string ToString()

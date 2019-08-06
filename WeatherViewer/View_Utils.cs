@@ -24,6 +24,22 @@ namespace WeatherViewer
             return res;
         }
 
+        public static Color Wind2Color(double cloudiness)
+        {
+            Color res = new Color();
+            res.R = 255;
+            res.G = 255;
+            res.B = 255;
+            float value = (float)cloudiness * 3;
+            if (value > 1)
+                value = 1;
+            if (value < 0)
+                value = 0;
+            res.ScA = value;
+
+            return res;
+        }
+
         public static Color PressureToColor(double pressure)
         {
             Color res = new Color();

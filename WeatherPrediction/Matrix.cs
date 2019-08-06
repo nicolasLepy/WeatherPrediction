@@ -65,6 +65,32 @@ namespace WeatherPrediction
             }            
         }
 
+        /// <summary>
+        /// Edge detection to estimate the wind thanks to cloudiness
+        /// </summary>
+        /// <param name="cloudiness"></param>
+        public void EdgeDetection(Matrix cloudiness)
+        {
+            for(int i = 1; i<Width-1; i++)
+            {
+                for(int j = 1; j<Height-1; j++)
+                {
+                    double c00 = cloudiness.Get(i - 1, j - 1) * -1;
+                    double c01 = cloudiness.Get(i - 1, j) * -1;
+                    double c02 = cloudiness.Get(i - 1, j + 1) * -1;
+                    double c10 = cloudiness.Get(i, j - 1) * -1;
+                    double c11 = cloudiness.Get(i, j) * 8;
+                    double c12 = cloudiness.Get(i, j + 1) * -1;
+                    double c20 = cloudiness.Get(i + 1, j - 1) * -1;
+                    double c21 = cloudiness.Get(i + 1, j) * -1;
+                    double c22 = cloudiness.Get(i + 1, j + 1) * -1;
+                    double value = c00 + c01 + c02 + c10 + c11 + c12 + c20 + c21 + c22;
+                    if (value < 0) value = 0;
+                    Set(i, j, value);
+                }
+            }
+        }
+
         public void ComputeCloudiness(Matrix pressures, Matrix waterMap)
         {
             if (pressures.Width != Width || pressures.Height != Height)

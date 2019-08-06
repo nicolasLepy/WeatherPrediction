@@ -126,7 +126,12 @@ namespace WeatherPrediction
                 Matrix pressures = Utils.GeneratePressuresMatrix(_region, _day, hour);
                 Matrix report = _region.LastCloudinessReport().Copy();
                 report.ComputeCloudiness(pressures, _region.WaterMap);
-                _region.CloudinessReports.Add(new RegionalReport(_day,hour, report));
+
+                Matrix wind = new Matrix(Utils.MATRIX_SIZE, Utils.MATRIX_SIZE, 0);
+                wind.EdgeDetection(report);
+
+                _region.CloudinessReports.Add(new RegionalReport(_day, hour, report));
+                _region.WindReports.Add(new RegionalReport(_day, hour, wind));
             }
         }
 

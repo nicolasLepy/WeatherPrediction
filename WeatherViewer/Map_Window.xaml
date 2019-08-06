@@ -19,7 +19,8 @@
 
 		<Button Name="btnComputePressures" Content="Pressures" Width="60" Height="20" VerticalAlignment="Top" Margin="0 145 0 0" HorizontalAlignment="Left" Click="BtnComputePressures_Click"/>
 		<Button Name="btnComputeCloudiness" Content="Cloudiness" Width="60" Height="20" VerticalAlignment="Top" Margin="0 170 0 0" HorizontalAlignment="Left" Click="BtnComputeCloudiness_Click"/>
-		<Label Name="lbTemp" Width="50" Height="35" VerticalAlignment="Top" Margin="0 190 0 0" HorizontalAlignment="Left" Style="{StaticResource StyleLabelTempMax}" Content="88"/>
+		<Button Name="btnComputeWind" Content="Wind" Width="60" Height="20" VerticalAlignment="Top" Margin="0 195 0 0" HorizontalAlignment="Left" Click="BtnComputeWind_Click"/>
+		<Label Name="lbTemp" Width="50" Height="35" VerticalAlignment="Top" Margin="0 220 0 0" HorizontalAlignment="Left" Style="{StaticResource StyleLabelTempMax}" Content="88"/>
 
 	</Grid>
 </Window>
