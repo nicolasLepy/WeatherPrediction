@@ -43,6 +43,7 @@ namespace WeatherViewer
             this.Dispatcher.Invoke(async () =>
             {
                 string[] timeString = dpDate.Text.Split('/');
+
                 DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
                 double p = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
 

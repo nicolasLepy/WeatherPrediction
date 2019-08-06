@@ -164,6 +164,7 @@ namespace WeatherPrediction
             int indiceY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
 
             Matrix wind = GetWindReport(day, hour);
+
             return wind.Get(indiceX, indiceY);
         }
 
