@@ -64,7 +64,7 @@ namespace WeatherViewer
                     double tempe = interpolation.Interpolate(i);
                     double pressure = interpolation_pressure.Interpolate(i);
                     double weather = rp.Weather[i];
-                    dgForecast.Items.Add(new HourlyReport() { Hour = i + "h", Temperature = tempe.ToString("0.0") +"°", Color = GetTemperatureColor(tempe), Pressure = pressure.ToString("0.0 hp"), Icon=View_Utils.IconPath(View_Utils.WeatherToIcon(weather)) });
+                    dgForecast.Items.Add(new HourlyReport() { Hour = i + "h", Temperature = tempe.ToString("0.0") +"°", Color = GetTemperatureColor(tempe), Pressure = pressure.ToString("0.0 hp"), Icon=ViewUtils.IconPath(ViewUtils.WeatherToIcon(weather)) });
                     
                 }
             }

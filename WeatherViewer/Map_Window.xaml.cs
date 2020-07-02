@@ -71,7 +71,7 @@ namespace WeatherViewer
         {
             InitializeComponent();
             _region = region;
-            imgMap.Source = new BitmapImage(new Uri(View_Utils.IconPath(_region.MapPath)));
+            imgMap.Source = new BitmapImage(new Uri(ViewUtils.IconPath(_region.MapPath)));
             _width = imgMap.Width;
             _height = imgMap.Height;
 
@@ -182,25 +182,25 @@ namespace WeatherViewer
                     if(indicator == 1)
                     {
                         temperature = _region.Temperature(pt.X, pt.Y, date, hour, p);
-                        color = View_Utils.Temperature2Color(temperature);
+                        color = ViewUtils.Temperature2Color(temperature);
                     }
 
                     else if (indicator == 2)
                     {
                         temperature = _region.Pressure(pt.X, pt.Y, date, hour, p);
-                        color = View_Utils.PressureToColor(temperature);
+                        color = ViewUtils.PressureToColor(temperature);
                     }
 
                     else if(indicator == 3)
                     {
                         temperature = _region.Cloudiness(pt.X, pt.Y, date, hour, p, (int)_region.MapSizeX, (int)_region.MapSizeY);
-                        color = View_Utils.Cloudiness2Color(temperature);
+                        color = ViewUtils.Cloudiness2Color(temperature);
                     }
 
                     else if(indicator == 4)
                     {
                         temperature = _region.Wind(pt.X, pt.Y, date, hour, p, (int)_region.MapSizeX, (int)_region.MapSizeY);
-                        color = View_Utils.Wind2Color(temperature);
+                        color = ViewUtils.Wind2Color(temperature);
                     }
 
                     Rectangle rect = new Rectangle();

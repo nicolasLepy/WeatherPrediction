@@ -26,16 +26,16 @@ namespace WeatherViewer
     public partial class MainWindow : Window
     {
 
-        private Database _database;
+        private readonly Database _database;
         private ForecastGenerator _forecast;
 
-        public SeriesCollection SeriesCollection { get; set; }
-        public string[] Labels { get; set; }
-        public Func<double, string> YFormatter { get; set; }
+        private SeriesCollection SeriesCollection { get; set; }
+        private string[] Labels { get; set; }
+        private Func<double, string> YFormatter { get; set; }
 
-        public SeriesCollection SeriesCollection_Pressure { get; set; }
-        public string[] Labels_Pressure { get; set; }
-        public Func<double, string> YFormatter_Pressure { get; set; }
+        private SeriesCollection SeriesCollection_Pressure { get; set; }
+        private string[] Labels_Pressure { get; set; }
+        private Func<double, string> YFormatter_Pressure { get; set; }
 
         private void UpdateChartPressures()
         {
@@ -147,7 +147,9 @@ namespace WeatherViewer
             {
                 _forecast = new ForecastGenerator(region, new DateTime(281, 5, 31), Double.Parse(tbAlpha.Text, CultureInfo.InvariantCulture), Double.Parse(tbBeta.Text, CultureInfo.InvariantCulture), Double.Parse(tbGamma.Text, CultureInfo.InvariantCulture));
                 for (int i = 0; i < 60; i++)
+                {
                     _forecast.GenerateDay();
+                }
             }
             UpdateChartTemperatures();
             UpdateChartPressures();

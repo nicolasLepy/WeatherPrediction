@@ -20,14 +20,11 @@ namespace WeatherViewer
     /// </summary>
     public partial class WeatherForecast_Window : Window
     {
-        private Database _database;
 
         public WeatherForecast_Window(Database database)
         {
-            _database = database;
-
             InitializeComponent();
-            foreach(Region region in _database.Regions)
+            foreach(Region region in database.Regions)
             {
                 foreach (City city in region.Cities)
                 {
@@ -56,7 +53,7 @@ namespace WeatherViewer
                     lbDate.Content = report.Day.ToShortDateString();
 
                     Image image = new Image();
-                    image.Source = new BitmapImage(new Uri(View_Utils.IconPath(View_Utils.WeatherToIcon(report.Weather[12]))));
+                    image.Source = new BitmapImage(new Uri(ViewUtils.IconPath(ViewUtils.WeatherToIcon(report.Weather[12]))));
                     image.Width = 50;
                     image.Height = 50;
 

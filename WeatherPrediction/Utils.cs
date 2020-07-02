@@ -8,9 +8,9 @@ using System.Text;
 
 namespace WeatherPrediction
 {
-    public class Utils
+    public static class Utils
     {
-        public static int MATRIX_SIZE = 20;
+        public static readonly int MATRIX_SIZE = 20;
 
         public static double Distance(double xa, double ya, double xb, double yb)
         {
@@ -22,7 +22,7 @@ namespace WeatherPrediction
             return Math.Sqrt( Math.Pow( b.X-a.X ,2) + Math.Pow(b.Y - a.Y, 2));
         }
 
-        public static IInterpolation TemperaturesInterpolation(double tmax_yesturday, double tmin, double tmax, double tmin_tomorrow)
+        public static IInterpolation TemperaturesInterpolation(double tmaxYesturday, double tmin, double tmax, double tminTomorrow)
         {
             List<double> hours = new List<double>();
             hours.Add(-6);
@@ -32,23 +32,23 @@ namespace WeatherPrediction
             hours.Add(17.5);
             hours.Add(29);
             List<double> temp = new List<double>();
-            temp.Add(tmax_yesturday);
+            temp.Add(tmaxYesturday);
             temp.Add(tmin);
             temp.Add(tmin);
             temp.Add(tmax);
             temp.Add(tmax);
-            temp.Add(tmin_tomorrow);
+            temp.Add(tminTomorrow);
             return Interpolate.Polynomial(hours, temp);
         }
 
-        public static IInterpolation PressuresInterpolation(KeyValuePair<int, double> lastPressure_yesturday, List<KeyValuePair<int, double>> pressures, KeyValuePair<int, double> firstPressure_tommorow)
+        public static IInterpolation PressuresInterpolation(KeyValuePair<int, double> lastPressureYesturday, List<KeyValuePair<int, double>> pressures, KeyValuePair<int, double> firstPressureTommorow)
         {
             List<double> hourPressure = new List<double>();
             List<double> valuesPressure = new List<double>();
-            hourPressure.Add(0 - (24 - lastPressure_yesturday.Key));
-            hourPressure.Add(-0.1 - (24 - lastPressure_yesturday.Key));
-            valuesPressure.Add(lastPressure_yesturday.Value);
-            valuesPressure.Add(lastPressure_yesturday.Value);
+            hourPressure.Add(0 - (24 - lastPressureYesturday.Key));
+            hourPressure.Add(-0.1 - (24 - lastPressureYesturday.Key));
+            valuesPressure.Add(lastPressureYesturday.Value);
+            valuesPressure.Add(lastPressureYesturday.Value);
             foreach (KeyValuePair<int, double> kvp in pressures)
             {
                 hourPressure.Add(kvp.Key);
@@ -56,10 +56,10 @@ namespace WeatherPrediction
                 valuesPressure.Add(kvp.Value);
                 valuesPressure.Add(kvp.Value);
             }
-            hourPressure.Add(24 + firstPressure_tommorow.Key);
-            hourPressure.Add(24.1 + firstPressure_tommorow.Key);
-            valuesPressure.Add(firstPressure_tommorow.Value);
-            valuesPressure.Add(firstPressure_tommorow.Value);
+            hourPressure.Add(24 + firstPressureTommorow.Key);
+            hourPressure.Add(24.1 + firstPressureTommorow.Key);
+            valuesPressure.Add(firstPressureTommorow.Value);
+            valuesPressure.Add(firstPressureTommorow.Value);
             return Interpolate.Polynomial(hourPressure, valuesPressure);
         }
 

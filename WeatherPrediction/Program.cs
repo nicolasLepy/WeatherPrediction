@@ -9,7 +9,7 @@ namespace WeatherPrediction
 
     
 
-    public class Program
+    public static class Program
     {
         
 

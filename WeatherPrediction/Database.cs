@@ -10,8 +10,8 @@ namespace WeatherPrediction
 {
     public class Database
     {
-        private List<Region> _regions;
-        private List<Season> _seasons;
+        private readonly List<Region> _regions;
+        private readonly List<Season> _seasons;
 
         public List<Region> Regions { get => _regions; }
         public List<Season> Seasons { get => _seasons; }

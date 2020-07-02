@@ -89,8 +89,14 @@ namespace WeatherPrediction
 
                 if (season != null)
                 {
-                    if (season.Winter_Season) z--;
-                    else z++;
+                    if (season.Winter_Season)
+                    {
+                        z--;
+                    }
+                    else
+                    {
+                        z++;
+                    }
                 }
                 else
                 {

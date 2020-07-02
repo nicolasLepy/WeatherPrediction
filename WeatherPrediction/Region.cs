@@ -10,23 +10,23 @@ namespace WeatherPrediction
     public class Region
     {
 
-        private string _name;
-        private double _mapSizeX;
-        private double _mapSizeY;
-        private string _mapPath;
-        private List<City> _cities;
-        private Matrix _waterMap;
-        private List<RegionalReport> _windReports;
-        private List<RegionalReport> _cloudinessReports;
+        private readonly string _name;
+        private readonly double _mapSizeX;
+        private readonly double _mapSizeY;
+        private readonly string _mapPath;
+        private readonly List<City> _cities;
+        private readonly Matrix _waterMap;
+        private readonly List<RegionalReport> _windReports;
+        private readonly List<RegionalReport> _cloudinessReports;
 
-        public string Name { get => _name; }
-        public double MapSizeX { get => _mapSizeX; }
-        public double MapSizeY { get => _mapSizeY; }
-        public string MapPath { get => _mapPath; }
-        public List<City> Cities { get => _cities; }
-        public Matrix WaterMap { get => _waterMap; }
-        public List<RegionalReport> WindReports { get => _windReports; }
-        public List<RegionalReport> CloudinessReports { get => _cloudinessReports; }
+        public string Name => _name;
+        public double MapSizeX => _mapSizeX;
+        public double MapSizeY => _mapSizeY;
+        public string MapPath => _mapPath;
+        public List<City> Cities => _cities;
+        public Matrix WaterMap => _waterMap;
+        public List<RegionalReport> WindReports => _windReports;
+        public List<RegionalReport> CloudinessReports => _cloudinessReports;
 
         public Region(string name, double mapSizeX, double mapSizeY, string mapPath, Matrix waterMap)
         {
@@ -44,9 +44,13 @@ namespace WeatherPrediction
         {
             Matrix res;
             if (CloudinessReports.Count > 0)
+            {
                 res = CloudinessReports[CloudinessReports.Count - 1].Matrix;
+            }
             else
+            {
                 res = new Matrix(Utils.MATRIX_SIZE, Utils.MATRIX_SIZE, 0);
+            }
             return res;
         }
 
@@ -55,7 +59,11 @@ namespace WeatherPrediction
             Matrix res = null;
             foreach(RegionalReport rr in _cloudinessReports)
             {
-                if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day && rr.Hour == hour) res = rr.Matrix;
+                if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day &&
+                    rr.Hour == hour)
+                {
+                    res = rr.Matrix;
+                }
             }
             return res;
         }
@@ -65,7 +73,11 @@ namespace WeatherPrediction
             Matrix res = null;
             foreach (RegionalReport rr in _windReports)
             {
-                if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day && rr.Hour == hour) res = rr.Matrix;
+                if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day &&
+                    rr.Hour == hour)
+                {
+                    res = rr.Matrix;
+                }
             }
             return res;
         }
@@ -109,10 +121,14 @@ namespace WeatherPrediction
                 }
 
                 IInterpolation interpolation;
-                if(indicator_number == 1)
+                if (indicator_number == 1)
+                {
                     interpolation = Utils.TemperaturesInterpolation(yesturday.TMax, today.TMin, today.TMax, tomorrow.TMin);
+                }
                 else
+                {
                     interpolation = Utils.PressuresInterpolation(yesturday.LastPressure(), today.Pressures, tomorrow.FirstPressure());
+                }
 
 
                 double cityVariable = interpolation.Interpolate(hour);

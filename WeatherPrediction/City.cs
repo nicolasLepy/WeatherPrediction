@@ -8,21 +8,21 @@ namespace WeatherPrediction
 {
     public class City
     {
-        private string _name;
-        private int _x;
-        private int _y;
-        private List<Report> _reports;
-        private List<Report> _forecast;
-        private List<Season> _seasons;
-        private double _altitude;
+        private readonly string _name;
+        private readonly int _x;
+        private readonly int _y;
+        private readonly List<Report> _reports;
+        private readonly List<Report> _forecast;
+        private readonly List<Season> _seasons;
+        private readonly double _altitude;
 
-        public string Name { get => _name; }
-        public int X { get => _x; }
-        public int Y { get => _y; }
-        public List<Report> Reports { get => _reports; }
-        public List<Report> Forecast { get => _forecast; }
-        public List<Season> Seasons { get => _seasons; }
-        public double Altitude { get => _altitude; }
+        public string Name => _name;
+        public int X => _x;
+        public int Y => _y;
+        public List<Report> Reports => _reports;
+        public List<Report> Forecast => _forecast;
+        public List<Season> Seasons => _seasons;
+        public double Altitude => _altitude;
 
         
         /// <summary>
@@ -34,14 +34,20 @@ namespace WeatherPrediction
         {
             Report res = null;
             if (Forecast.Count > 0)
+            {
                 res = Forecast[Forecast.Count - 1];
+            }
             else
+            {
                 foreach(Report rp in Reports)
                 {
                     Console.WriteLine(rp.Day.ToShortDateString());
                     if (rp.Day.Month == reference.Month && rp.Day.Day == reference.Day)
+                    {
                         res = rp;
+                    }
                 }
+            }
             return res;
             
         }
@@ -57,7 +63,9 @@ namespace WeatherPrediction
             foreach(Report report in Forecast)
             {
                 if (report.Day.Month == date.Month && report.Day.Day == date.Day && report.Day.Year == date.Year)
+                {
                     res = report;
+                }
             }
             return res;
         }
@@ -73,7 +81,9 @@ namespace WeatherPrediction
             foreach(Report rp in Reports)
             {
                 if (rp.Day.Month == date.Month && rp.Day.Day == date.Day)
+                {
                     res = rp;
+                }
             }
             return res;
         }

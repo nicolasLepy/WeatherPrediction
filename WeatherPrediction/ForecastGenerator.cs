@@ -10,18 +10,18 @@ namespace WeatherPrediction
     public class ForecastGenerator
     {
 
-        private Random _random;
+        private readonly Random _random;
 
-        private Region _region;
+        private readonly Region _region;
         private DateTime _day;
-        private double _alpha;
-        private double _beta;
-        private double _gamma;
+        private readonly double _alpha;
+        private readonly double _beta;
+        private readonly double _gamma;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="database"></param>
+        /// <param name="region"></param>
         /// <param name="day"></param>
         /// <param name="alpha"> Smoothness coefficient for temperatures (between 0 and 1)
         /// 1 : no freedom, forecasts depend entirely from recorded data 
@@ -52,8 +52,10 @@ namespace WeatherPrediction
             double distTotale = 0;
             foreach(City c in _region.Cities)
             {
-                if(c != city)
+                if (c != city)
+                {
                     distTotale += Utils.Distance(c, city);
+                }
             }
 
             foreach (City c in _region.Cities)
