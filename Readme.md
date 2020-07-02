@@ -1,8 +1,8 @@
 Weather Prediction is a very simple stochastic algorithm for predicting weather from datasets, using probability distributions and single exponential smoothing.
 
-## Main tasks
-
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c043bae4ea514b36b7dcee0fffa3c249)](https://app.codacy.com/manual/lepynicolas/WeatherPrediction?utm_source=github.com&utm_medium=referral&utm_content=nicolasLepy/WeatherPrediction&utm_campaign=Badge_Grade_Dashboard)
+
+## Main tasks
 
 * Predicting temperature
 * Predicting humidity
