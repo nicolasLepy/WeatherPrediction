@@ -22,7 +22,6 @@ namespace WeatherPrediction
             _seasons = new List<Season>();
         }
         
-
         public void ResetForecast()
         {
             foreach(Region region in _regions)
@@ -35,15 +34,17 @@ namespace WeatherPrediction
             
         }
 
-
-        
         public Season String2Season(string name)
         {
             Season res = null;
-            foreach (Season s in _seasons) if (s.Name == name) res = s;
+            foreach (Season s in _seasons)
+            {
+                if (s.Name == name)
+                {
+                    res = s;
+                }
+            }
             return res;
         }
     }
-
-    
 }

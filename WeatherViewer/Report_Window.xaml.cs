@@ -102,7 +102,10 @@ namespace WeatherViewer
             {
                 res = "7";
             }
-            else res = "8";
+            else
+            {
+                res = "8";
+            }
 
             return res;
         }

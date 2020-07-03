@@ -9,7 +9,7 @@ namespace WeatherPrediction
     public class Matrix
     {
 
-        private double[,] _array;
+        private readonly double[,] _array;
 
         public int Width { get => _array.GetLength(0); }
         public int Height { get => _array.GetLength(1); }
@@ -18,8 +18,12 @@ namespace WeatherPrediction
         {
             _array = new double[width, height];
             for (int i = 0; i < width; i++)
+            {
                 for (int j = 0; j < height; j++)
+                {
                     _array[i, j] = initValue;
+                }
+            }
         }
         
         public double Get(int line, int column)

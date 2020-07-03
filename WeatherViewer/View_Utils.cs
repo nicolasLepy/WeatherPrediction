@@ -103,7 +103,9 @@ namespace WeatherViewer
                 }
             }
             else
-                blue = 0;
+            {
+                blue = 0;                
+            }
 
             if(temperature > 0 && temperature < 30)
             {

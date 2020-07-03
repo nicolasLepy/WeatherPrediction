@@ -8,9 +8,9 @@ namespace WeatherPrediction
 {
     public class RegionalReport
     {
-        private Matrix _matrix;
-        private DateTime _date;
-        private int _hour;
+        private readonly Matrix _matrix;
+        private readonly DateTime _date;
+        private readonly int _hour;
 
         public Matrix Matrix { get => _matrix; }
         public DateTime Date { get => _date; }

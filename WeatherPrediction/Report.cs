@@ -10,10 +10,10 @@ namespace WeatherPrediction
     public class Report
     {
         private DateTime _day;
-        private double _tMin;
-        private double _tMax;
-        private List<KeyValuePair<int, double>> _pressures;
-        private List<double> _weather;
+        private readonly double _tMin;
+        private readonly double _tMax;
+        private readonly List<KeyValuePair<int, double>> _pressures;
+        private readonly List<double> _weather;
 
         public DateTime Day { get => _day; }
         public double TMin { get => _tMin; }

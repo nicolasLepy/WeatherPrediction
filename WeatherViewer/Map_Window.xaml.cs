@@ -25,9 +25,9 @@ namespace WeatherViewer
     public partial class Map_Window : Window
     {
 
-        private Region _region;
-        private double _width;
-        private double _height;
+        private readonly Region _region;
+        private readonly double _width;
+        private readonly double _height;
 
 
         async Task Map(DateTime date, int hour, double p, int step)
@@ -102,9 +102,13 @@ namespace WeatherViewer
 
                 IInterpolation interpolation;
                 if (indicator == 1)
+                {
                     interpolation = Utils.TemperaturesInterpolation(yesturday.TMax, today.TMin, today.TMax, tomorrow.TMin);
+                }
                 else
+                {
                     interpolation = Utils.PressuresInterpolation(yesturday.LastPressure(), today.Pressures, tomorrow.FirstPressure());
+                }
 
                 Point p = Map2Screen(new Point(city.X, city.Y));
 
@@ -136,8 +140,6 @@ namespace WeatherViewer
         {
             double temperature = 0;
 
-            
-
             return temperature;
         }
 
@@ -146,7 +148,10 @@ namespace WeatherViewer
             List<UIElement> toRemove = new List<UIElement>();
             foreach(UIElement ui in canvas.Children)
             {
-                if (ui as Label != null || ui as Rectangle != null) toRemove.Add(ui);
+                if (ui as Label != null || ui as Rectangle != null)
+                {
+                    toRemove.Add(ui);
+                }
             }
             foreach(UIElement ui in toRemove)
             {
