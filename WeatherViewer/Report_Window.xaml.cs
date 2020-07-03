@@ -23,15 +23,11 @@ namespace WeatherViewer
     /// </summary>
     public partial class Report_Window : System.Windows.Window
     {
-
-        private Database _database;
-
         public Report_Window(Database database)
         {
             InitializeComponent();
-            _database = database;
 
-            foreach(Region region in _database.Regions)
+            foreach(Region region in database.Regions)
             {
                 foreach (City city in region.Cities)
                 {
@@ -48,21 +44,21 @@ namespace WeatherViewer
                 string[] timeString = dpDate.Text.Split('/');
                 DateTime dateVal = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
                 Report rp = city.GetReport(dateVal);
-                Report rp_before = city.GetReport(dateVal.AddDays(-1));
-                Report rp_after = city.GetReport(dateVal.AddDays(1));
+                Report rpBefore = city.GetReport(dateVal.AddDays(-1));
+                Report rpAfter = city.GetReport(dateVal.AddDays(1));
 
                 //Create polynomial interpolation for temperatures
-                IInterpolation interpolation = Utils.TemperaturesInterpolation(rp_before.TMax, rp.TMin, rp.TMax, rp_after.TMin);
+                IInterpolation interpolation = Utils.TemperaturesInterpolation(rpBefore.TMax, rp.TMin, rp.TMax, rpAfter.TMin);
 
                 //Create polynomial interpolation for pressures
-                IInterpolation interpolation_pressure = Utils.PressuresInterpolation(rp_before.LastPressure(), rp.Pressures, rp_after.FirstPressure());
+                IInterpolation interpolationPressure = Utils.PressuresInterpolation(rpBefore.LastPressure(), rp.Pressures, rpAfter.FirstPressure());
 
                 dgForecast.Items.Clear();
 
                 for (int i = 0; i<24; i++)
                 {
                     double tempe = interpolation.Interpolate(i);
-                    double pressure = interpolation_pressure.Interpolate(i);
+                    double pressure = interpolationPressure.Interpolate(i);
                     double weather = rp.Weather[i];
                     dgForecast.Items.Add(new HourlyReport() { Hour = i + "h", Temperature = tempe.ToString("0.0") +"°", Color = GetTemperatureColor(tempe), Pressure = pressure.ToString("0.0 hp"), Icon=ViewUtils.IconPath(ViewUtils.WeatherToIcon(weather)) });
                     
@@ -74,14 +70,38 @@ namespace WeatherViewer
         {
             string res = "0";
 
-            if (temperature < -15) res = "0";
-            else if (temperature < -5) res = "1";
-            else if (temperature < 7) res = "2";
-            else if (temperature < 22) res = "3";
-            else if (temperature < 28) res = "4";
-            else if (temperature < 34) res = "5";
-            else if (temperature < 42) res = "6";
-            else if (temperature < 47) res = "7";
+            if (temperature < -15)
+            {
+                res = "0";
+            }
+            else if (temperature < -5)
+            {
+                res = "1";
+            }
+            else if (temperature < 7)
+            {
+                res = "2";
+            }
+            else if (temperature < 22)
+            {
+                res = "3";
+            }
+            else if (temperature < 28)
+            {
+                res = "4";
+            }
+            else if (temperature < 34)
+            {
+                res = "5";
+            }
+            else if (temperature < 42)
+            {
+                res = "6";
+            }
+            else if (temperature < 47)
+            {
+                res = "7";
+            }
             else res = "8";
 
             return res;
