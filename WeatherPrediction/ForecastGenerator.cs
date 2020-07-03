@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace WeatherPrediction
 {
@@ -111,8 +112,8 @@ namespace WeatherPrediction
                     //If it's the first pressure calculated for the day, applying smoothing on it
                     if (hour < 8)
                     {
-                        double avg_pressure = (city.GetSeason(_day).Average_Max_Pressure + city.GetSeason(_day).Average_Min_Pressure) / 2.0;
-                        grossPressure = grossPressure + (_gamma * ( avg_pressure - grossPressure ));
+                        double avgPressure = (city.GetSeason(_day).Average_Max_Pressure + city.GetSeason(_day).Average_Min_Pressure) / 2.0;
+                        grossPressure = grossPressure + (_gamma * ( avgPressure - grossPressure ));
                     }
                     report.AddPressureValue(hour, grossPressure);
                     lastPressure = grossPressure;
@@ -125,12 +126,12 @@ namespace WeatherPrediction
             //Regional reports
             for(int hour = 0; hour<24; hour++)
             {
-                Matrix pressures = Utils.GeneratePressuresMatrix(_region, _day, hour);
-                Matrix report = _region.LastCloudinessReport().Copy();
-                report.ComputeCloudiness(pressures, _region.WaterMap);
+                Matrix<double> pressures = Utils.GeneratePressuresMatrix(_region, _day, hour);
+                Matrix<double> report = _region.LastCloudinessReport().Clone();
+                Utils.ComputeCloudiness(report, pressures, _region.WaterMap);
 
-                Matrix wind = new Matrix(Utils.MATRIX_SIZE, Utils.MATRIX_SIZE, 0);
-                wind.EdgeDetection(report);
+                Matrix<double> wind = Utils.CreateMatrix(Utils.MATRIX_SIZE, Utils.MATRIX_SIZE, 0);
+                Utils.EdgeDetection(wind, report);
 
                 _region.CloudinessReports.Add(new RegionalReport(_day, hour, report));
                 _region.WindReports.Add(new RegionalReport(_day, hour, wind));

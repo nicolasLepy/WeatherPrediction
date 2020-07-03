@@ -7,6 +7,7 @@ using System.Text;
 namespace WeatherPrediction
 {
     
+    
     public class MatrixException : Exception
     {
         public MatrixException(string content) : base(content)
@@ -14,6 +15,7 @@ namespace WeatherPrediction
             
         }
     }
+    /*
     
     public class Matrix
     {
@@ -208,7 +210,7 @@ namespace WeatherPrediction
             }
         }
 
-        /*
+        
         public void PrintMatrix()
         {
             Console.WriteLine("----\n");
@@ -220,7 +222,7 @@ namespace WeatherPrediction
                 }
                 Console.WriteLine("");
             }
-        }*/
+        }
 
-    }
+    }*/
 }

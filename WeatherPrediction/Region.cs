@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace WeatherPrediction
 {
@@ -15,7 +16,7 @@ namespace WeatherPrediction
         private readonly double _mapSizeY;
         private readonly string _mapPath;
         private readonly List<City> _cities;
-        private readonly Matrix _waterMap;
+        private readonly Matrix<double> _waterMap;
         private readonly List<RegionalReport> _windReports;
         private readonly List<RegionalReport> _cloudinessReports;
 
@@ -24,11 +25,11 @@ namespace WeatherPrediction
         public double MapSizeY => _mapSizeY;
         public string MapPath => _mapPath;
         public List<City> Cities => _cities;
-        public Matrix WaterMap => _waterMap;
+        public Matrix<double> WaterMap => _waterMap;
         public List<RegionalReport> WindReports => _windReports;
         public List<RegionalReport> CloudinessReports => _cloudinessReports;
 
-        public Region(string name, double mapSizeX, double mapSizeY, string mapPath, Matrix waterMap)
+        public Region(string name, double mapSizeX, double mapSizeY, string mapPath, Matrix<double> waterMap)
         {
             _name = name;
             _mapSizeX = mapSizeX;
@@ -40,23 +41,23 @@ namespace WeatherPrediction
             _windReports = new List<RegionalReport>();
         }
 
-        public Matrix LastCloudinessReport()
+        public Matrix<double> LastCloudinessReport()
         {
-            Matrix res;
+            Matrix<double> res;
             if (CloudinessReports.Count > 0)
             {
                 res = CloudinessReports[CloudinessReports.Count - 1].Matrix;
             }
             else
             {
-                res = new Matrix(Utils.MATRIX_SIZE, Utils.MATRIX_SIZE, 0);
+                res = Utils.CreateMatrix(Utils.MATRIX_SIZE, Utils.MATRIX_SIZE, 0);
             }
             return res;
         }
 
-        public Matrix GetCloudinessReport(DateTime date, int hour)
+        public Matrix<double> GetCloudinessReport(DateTime date, int hour)
         {
-            Matrix res = null;
+            Matrix<double> res = null;
             foreach(RegionalReport rr in _cloudinessReports)
             {
                 if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day &&
@@ -68,9 +69,9 @@ namespace WeatherPrediction
             return res;
         }
 
-        public Matrix GetWindReport(DateTime date, int hour)
+        public Matrix<double> GetWindReport(DateTime date, int hour)
         {
-            Matrix res = null;
+            Matrix<double> res = null;
             foreach (RegionalReport rr in _windReports)
             {
                 if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day &&
@@ -170,8 +171,8 @@ namespace WeatherPrediction
             int indexX = (int)((Utils.MATRIX_SIZE / (widthMap+0.0))*intX);
             int indexY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
 
-            Matrix cloudiness = GetCloudinessReport(day, hour);
-            return cloudiness.Get(indexX,indexY);
+            Matrix<double> cloudiness = GetCloudinessReport(day, hour);
+            return cloudiness.At(indexX,indexY);
         }
 
         public double Wind(double x, double y, DateTime day, int hour, double p, int widthMap, int heightMap)
@@ -181,9 +182,9 @@ namespace WeatherPrediction
             int indexX = (int)((Utils.MATRIX_SIZE / (widthMap + 0.0)) * intX);
             int indexY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
 
-            Matrix wind = GetWindReport(day, hour);
+            Matrix<double> wind = GetWindReport(day, hour);
 
-            return wind.Get(indexX, indexY);
+            return wind.At(indexX, indexY);
         }
 
         public override string ToString()

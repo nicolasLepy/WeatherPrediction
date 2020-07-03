@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using MathNet.Numerics.LinearAlgebra;
 
 namespace WeatherPrediction
 {
@@ -17,9 +18,9 @@ namespace WeatherPrediction
             _database = database;
         }
 
-        public Matrix LoadWaterMap(string path)
+        public Matrix<double> LoadWaterMap(string path)
         {
-            Matrix matrix = null;
+            Matrix<double> matrix = null;
             System.IO.StreamReader file = new System.IO.StreamReader(System.IO.Directory.GetCurrentDirectory() + "\\waterMaps\\" + path);
             int size = 0;
             int lineNumber = 0;
@@ -31,13 +32,13 @@ namespace WeatherPrediction
                 if (size == 0)
                 {
                     size = split.Length;
-                    matrix = new Matrix(size, size, 0);
+                    matrix = Utils.CreateMatrix(size,size,0);
                 }
                 columnNumber = 0;
                 foreach (string s in split)
                 {
                     double value = Double.Parse(s, CultureInfo.InvariantCulture);
-                    matrix.Set(lineNumber, columnNumber, value);
+                    matrix.At(lineNumber, columnNumber, value);
                     columnNumber++;
                 }
                 lineNumber++;
@@ -67,7 +68,7 @@ namespace WeatherPrediction
                     int y = int.Parse(split[3]);
                     string map = split[4];
                     string pathWaterMap = split[5];
-                    Matrix waterMap = LoadWaterMap(pathWaterMap);
+                    Matrix<double> waterMap = LoadWaterMap(pathWaterMap);
                     region = new Region(name, x, y, map,waterMap);
                 }
                 else if (split[0] == "EndRegion")
