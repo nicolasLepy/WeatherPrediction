@@ -4,12 +4,12 @@ Weather Prediction is a very simple stochastic algorithm for predicting weather 
 
 ## Main tasks
 
-  * Predicting temperature
-  * Predicting humidity
-  * Predicting weather
-  * Predicting cloudiness
-  * Predicting the wind
-  * Add indicators (Humidex, Windchill)
+*   Predicting temperature
+*   Predicting humidity
+*   Predicting weather
+*   Predicting cloudiness
+*   Predicting the wind
+*   Add indicators (Humidex, Windchill)
 
 ## Algorithm
 
@@ -25,8 +25,8 @@ Then, single exponential smoothing is used to smooth temperature to seasonal nor
 
 The alpha parameter determines the importance of flattening.
 
-  * 1: the temperature is entirely influenced by the seasonal normal.
-  * 0 : the seasonal normal is ignored.
+*   1: the temperature is entirely influenced by the seasonal normal.
+*   0 : the seasonal normal is ignored.
 
 ![Alt text](img/4.gif)
 
@@ -36,8 +36,8 @@ Finally, to remain consistent with other cities, temperature of a city (called a
 
 Beta parameter determine how this influence is big.
 
-  * 1 : total influence
-  * 0 : no influence
+*   1 : total influence
+*   0 : no influence
 
 Influence temperature of other cities is the sum of temperature of other cities multipled by proximity of the city to the station. 
 
@@ -83,8 +83,8 @@ Once ![Alt text](img/9.gif) is obtained, we can obtain a "weather indicator" cal
 
 Then,
 
- * if current season is winter, Z = Z - 1
- * if current season is summer, Z = Z + 1
+*   if current season is winter, Z = Z - 1
+*   if current season is summer, Z = Z + 1
 
 (Normaly, wind direction affects weather, but as wind is not yet implemented, this part is currently ignored)
 
@@ -116,10 +116,10 @@ Where :
 
 ![Alt text](img/14.png)
 
-  * u(x) is the estimated temperature of point x.
-  * d(x,xk) is the distance between x and xk.
-  * uk is the temperature of the station k.
-  * p is a power parameter. A greater value of p gives more importance to closer values of x.
+*   u(x) is the estimated temperature of point x.
+*   d(x,xk) is the distance between x and xk.
+*   uk is the temperature of the station k.
+*   p is a power parameter. A greater value of p gives more importance to closer values of x.
 
 The temperature of a point is influenced by each station on the map, but the closer the station is, the greater the impact on estimated temperature, and vice versa. 
 
@@ -213,13 +213,13 @@ WPF
 
 ## Credits
 
-  * [Selvaraj, Poornima & Marudappa, Pushpalatha & Sujit Shankar, J. (2019). Analysis of Weather Data Using Forecasting Algorithms: ICCI-2017. 10.1007/978-981-13-1132-1_1](https://www.researchgate.net/publication/326748913_Analysis_of_Weather_Data_Using_Forecasting_Algorithms_ICCI-2017)
-  * [Mathematical function describing the Zambretti forecaster](https://web.archive.org/web/20110610213848/http://www.meteormetrics.com/zambretti.htm)
-  * [Inverse distance weighting](https://fr.wikipedia.org/wiki/Pond%C3%A9ration_inverse_%C3%A0_la_distance)
-  * [Tatooine Map (for demo)](https://www.reddit.com/r/sw5e/comments/aiv99p/cleaned_up_a_map_of_tatooine_i_found_on/)
-  * [VClouds Weather Icons© by VClouds](http://vclouds.deviantart.com/)
-  * [Live Charts for WPF](https://lvcharts.net/)
-  * MathNet.Numerics
+*   [Selvaraj, Poornima & Marudappa, Pushpalatha & Sujit Shankar, J. (2019). Analysis of Weather Data Using Forecasting Algorithms: ICCI-2017. 10.1007/978-981-13-1132-1_1](https://www.researchgate.net/publication/326748913_Analysis_of_Weather_Data_Using_Forecasting_Algorithms_ICCI-2017)
+*   [Mathematical function describing the Zambretti forecaster](https://web.archive.org/web/20110610213848/http://www.meteormetrics.com/zambretti.htm)
+*   [Inverse distance weighting](https://fr.wikipedia.org/wiki/Pond%C3%A9ration_inverse_%C3%A0_la_distance)
+*   [Tatooine Map (for demo)](https://www.reddit.com/r/sw5e/comments/aiv99p/cleaned_up_a_map_of_tatooine_i_found_on/)
+*   [VClouds Weather Icons© by VClouds](http://vclouds.deviantart.com/)
+*   [Live Charts for WPF](https://lvcharts.net/)
+*   MathNet.Numerics
 
 ## License
 
