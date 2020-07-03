@@ -77,9 +77,9 @@ h is the altitude of the city
 
 Once ![Alt text](img/9.gif) is obtained, we can obtain a "weather indicator" called Z, which takes as value : 
 
-* If pressure is falling : ![Alt text](img/10.gif)
-* If pressure remains steady : ![Alt text](img/11.gif)
-* If pressure is rising : ![Alt text](img/12.gif)
+*   If pressure is falling : ![Alt text](img/10.gif)
+*   If pressure remains steady : ![Alt text](img/11.gif)
+*   If pressure is rising : ![Alt text](img/12.gif)
 
 Then,
 

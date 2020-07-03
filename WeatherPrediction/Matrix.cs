@@ -6,6 +6,15 @@ using System.Text;
 
 namespace WeatherPrediction
 {
+    
+    public class MatrixException : Exception
+    {
+        public MatrixException(string content) : base(content)
+        {
+            
+        }
+    }
+    
     public class Matrix
     {
 
@@ -105,7 +114,7 @@ namespace WeatherPrediction
         {
             if (pressures.Width != Width || pressures.Height != Height)
             {
-                throw new Exception("The pressure matrix must have the same size");
+                throw new MatrixException("The pressure matrix must have the same size");
             }
 
             GenerateClouds(waterMap);
@@ -188,7 +197,7 @@ namespace WeatherPrediction
         {
             if (matrix.Width != Width && matrix.Height != Height)
             {
-                throw new Exception("The matrix must have the same size");
+                throw new MatrixException("The matrix must have the same size");
             }
             for (int i = 0; i < Width; i++)
             {

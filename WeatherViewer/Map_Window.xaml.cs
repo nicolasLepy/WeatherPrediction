@@ -49,13 +49,6 @@ namespace WeatherViewer
 
                 int step = int.Parse(tbStep.Text);
                 
-                /*
-                for(int i = 0; i<50; i++)
-                {
-                    date = date.AddDays(1);
-                    await Map(date, 17, p, step);
-                }*/
-
                 for (int i = 0; i < 24; i++)
                 {
                     await Map(date, i, p, step);
@@ -215,7 +208,9 @@ namespace WeatherViewer
                     rect.Margin = new Thickness(step * j, step * i, 0, 0);
                     canvas.Children.Add(rect);
                     if (step > 145)
+                    {
                         DrawLabel(step * j, step * i, temperature.ToString("0.0"));
+                    }
 
                 }
             }
