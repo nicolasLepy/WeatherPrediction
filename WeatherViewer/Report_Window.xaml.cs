@@ -68,7 +68,7 @@ namespace WeatherViewer
 
         public string GetTemperatureColor(double temperature)
         {
-            string res = "0";
+            string res;
 
             if (temperature < -15)
             {

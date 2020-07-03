@@ -199,6 +199,7 @@ namespace WeatherPrediction
             }
         }
 
+        /*
         public void PrintMatrix()
         {
             Console.WriteLine("----\n");
@@ -210,7 +211,7 @@ namespace WeatherPrediction
                 }
                 Console.WriteLine("");
             }
-        }
+        }*/
 
     }
 }

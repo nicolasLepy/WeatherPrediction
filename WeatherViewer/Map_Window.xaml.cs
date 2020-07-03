@@ -245,7 +245,8 @@ namespace WeatherViewer
             {
                 Point p = Mouse.GetPosition(canvas);
                 string[] timeString = dpDate.Text.Split('/');
-                DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]), int.Parse(timeString[0]));
+                DateTime date = new DateTime(int.Parse(timeString[2]), int.Parse(timeString[1]),
+                    int.Parse(timeString[0]));
                 int hour = int.Parse(tbHour.Text);
                 double pp = Double.Parse(tbP.Text, CultureInfo.InvariantCulture);
 
@@ -253,7 +254,10 @@ namespace WeatherViewer
                 double temp = _region.Temperature(onMap.X, onMap.Y, date, hour, pp);
                 lbTemp.Content = temp.ToString("0.0");
             }
-            catch { }
+            catch
+            {
+                //Nothing to do if can't process after mouse move
+            }
             
             //Console.WriteLine(p.X + " - " + p.Y);
         }

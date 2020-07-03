@@ -77,8 +77,8 @@ namespace WeatherViewer
             Color res = new Color();
             res.A = 140;
             
-            double red = 0;
-            double blue = 20;
+            double red;
+            double blue;
             double green = 20;
 
             if(temperature > 25)

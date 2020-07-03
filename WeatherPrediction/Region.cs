@@ -84,16 +84,17 @@ namespace WeatherPrediction
 
         public string ShowForecast()
         {
-            string res = "\n\n";
+            StringBuilder res = new StringBuilder("\n\n");
             foreach (City city in _cities)
             {
-                res += city.Name + "\n";
+                
+                res.Append(city.Name).Append("\n");
                 foreach (Report rp in city.Forecast)
                 {
-                    res += rp.Day.ToShortDateString() + " Min : " + rp.TMin.ToString("0.0") + "°, TMax : " + rp.TMax.ToString("0.0") + "° \t Normales : " + city.DailyNormal(rp.Day).TMin + "-" + city.DailyNormal(rp.Day).TMax + "\n";
+                    res.Append(rp.Day.ToShortDateString()).Append(" Min : ").Append(rp.TMin.ToString("0.0")).Append("°, TMax : ").Append(rp.TMax.ToString("0.0")).Append("° \t Normales : ").Append(city.DailyNormal(rp.Day).TMin).Append("-").Append(city.DailyNormal(rp.Day).TMax).Append("\n");
                 }
             }
-            return res;
+            return res.ToString();
         }
 
         private double wk(double xx, double xy, double xkx, double xky)
@@ -104,16 +105,16 @@ namespace WeatherPrediction
         public double Indicator(double x, double y, DateTime day, int hour, double p, int indicator_number)
         {
             double numerator = 0;
-            double denomiator = 0;
+            double denominator = 0;
             foreach (City city in _cities)
             {
-                Report yesturday = city.GetReport(day.AddDays(-1));
+                Report yesterday = city.GetReport(day.AddDays(-1));
                 Report today = city.GetReport(day);
                 Report tomorrow = city.GetReport(day.AddDays(1));
                 
-                if(yesturday == null)
+                if(yesterday == null)
                 {
-                    yesturday = today;
+                    yesterday = today;
                 }
                 if(tomorrow == null)
                 {
@@ -123,11 +124,11 @@ namespace WeatherPrediction
                 IInterpolation interpolation;
                 if (indicator_number == 1)
                 {
-                    interpolation = Utils.TemperaturesInterpolation(yesturday.TMax, today.TMin, today.TMax, tomorrow.TMin);
+                    interpolation = Utils.TemperaturesInterpolation(yesterday.TMax, today.TMin, today.TMax, tomorrow.TMin);
                 }
                 else
                 {
-                    interpolation = Utils.PressuresInterpolation(yesturday.LastPressure(), today.Pressures, tomorrow.FirstPressure());
+                    interpolation = Utils.PressuresInterpolation(yesterday.LastPressure(), today.Pressures, tomorrow.FirstPressure());
                 }
 
 
@@ -136,11 +137,11 @@ namespace WeatherPrediction
 
 
                 double weight = Math.Pow(wk(x, y, city.X, city.Y), p);
-                denomiator += weight;
+                denominator += weight;
                 numerator += weight * cityVariable;
             }
 
-            double localTemp = (numerator + 0.0) / (denomiator + 0.0);
+            double localTemp = (numerator + 0.0) / (denominator + 0.0);
             return localTemp;
         }
 
@@ -149,6 +150,7 @@ namespace WeatherPrediction
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
+        /// <param name="day"></param>
         /// <param name="hour"></param>
         /// <returns></returns>
         public double Temperature(double x, double y, DateTime day, int hour, double p)
@@ -165,23 +167,23 @@ namespace WeatherPrediction
         {
             int intX = (int)x;
             int intY = (int)y;
-            int indiceX = (int)((Utils.MATRIX_SIZE / (widthMap+0.0))*intX);
-            int indiceY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
+            int indexX = (int)((Utils.MATRIX_SIZE / (widthMap+0.0))*intX);
+            int indexY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
 
             Matrix cloudiness = GetCloudinessReport(day, hour);
-            return cloudiness.Get(indiceX,indiceY);
+            return cloudiness.Get(indexX,indexY);
         }
 
         public double Wind(double x, double y, DateTime day, int hour, double p, int widthMap, int heightMap)
         {
             int intX = (int)x;
             int intY = (int)y;
-            int indiceX = (int)((Utils.MATRIX_SIZE / (widthMap + 0.0)) * intX);
-            int indiceY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
+            int indexX = (int)((Utils.MATRIX_SIZE / (widthMap + 0.0)) * intX);
+            int indexY = (int)((Utils.MATRIX_SIZE / (heightMap + 0.0)) * intY);
 
             Matrix wind = GetWindReport(day, hour);
 
-            return wind.Get(indiceX, indiceY);
+            return wind.Get(indexX, indexY);
         }
 
         public override string ToString()
