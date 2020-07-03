@@ -168,7 +168,7 @@ namespace WeatherViewer
         /// <param name="hour"></param>
         /// <param name="p"></param>
         /// <param name="step"></param>
-        /// <param name="indicateur"></param>
+        /// <param name="indicator"></param>
         private void CreateMap(DateTime date, int hour, double p, int step, int indicator)
         {
             ClearMap();
