@@ -1,15 +1,52 @@
-Weather Prediction is a very simple stochastic algorithm for predicting weather from datasets, using probability distributions and single exponential smoothing.
+Weather Generator is learning project consisting of a very simple stochastic algorithm for predicting weather from datasets, using probability distributions and single exponential smoothing.
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c043bae4ea514b36b7dcee0fffa3c249)](https://app.codacy.com/manual/lepynicolas/WeatherPrediction?utm_source=github.com&utm_medium=referral&utm_content=nicolasLepy/WeatherPrediction&utm_campaign=Badge_Grade_Dashboard)
 
 ## Main tasks
 
-*   Predicting temperature
-*   Predicting humidity
-*   Predicting weather
-*   Predicting cloudiness
-*   Predicting the wind
-*   Add indicators (Humidex, Windchill)
+| Task                                                                  | Status                                                                |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Predicting temperature                                                | ![#008000](https://placehold.it/15/008000/000000?text=+) OK           |
+| Predicting humidity                                                   | ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Not started  |
+| Predicting weather                                                    | ![#ffa500](https://placehold.it/15/ffa500/000000?text=+) To be redone |
+| Predicting cloudiness                                                 | ![#008000](https://placehold.it/15/008000/000000?text=+) OK           |
+| Predicting the wind                                                   | ![#ffa500](https://placehold.it/15/ffa500/000000?text=+) In progress  |
+| Add indicators (Humidex, Windchill)                                   | ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) Not started  |
+| GUI                                                                   | ![#ffa500](https://placehold.it/15/ffa500/000000?text=+) In progress  |
+
+## Example
+
+### Tatooine dataset
+
+![Alt text](img/screen1.png?raw=true "Screenshot")
+
+Hourly temperature
+
+![Alt text](img/screen2.png?raw=true "Screenshot")
+
+Weather forecasts
+
+![Alt text](img/screen3.png?raw=true "Screenshot")
+
+Overview of the map
+
+![Alt text](img/screen4.png?raw=true "Screenshot")
+
+Animation of the temperature evolution over a day
+
+![Alt text](img/screen5.gif?raw=true "Screenshot")
+
+Animation of the athmospheric pressure evolution over a day
+
+![Alt text](img/screen6.gif?raw=true "Screenshot")
+
+Animation of the cloudiness evolution over a day (assuming there is a water source in the southeast corner of the map)
+
+![Alt text](img/screen7.gif?raw=true "Screenshot")
+
+Animation of the wind evolution over a day
+
+![Alt text](img/screen8.gif?raw=true "Screenshot")
 
 ## Algorithm
 
@@ -168,40 +205,6 @@ AddSeason,StandardTatooine_Summer
 EndCity
 EndRegion
 ```
-
-## Example
-
-### Tatooine dataset
-
-![Alt text](img/screen1.png?raw=true "Screenshot")
-
-Hourly temperature
-
-![Alt text](img/screen2.png?raw=true "Screenshot")
-
-Weather forecasts
-
-![Alt text](img/screen3.png?raw=true "Screenshot")
-
-Overview of the map
-
-![Alt text](img/screen4.png?raw=true "Screenshot")
-
-Animation of the temperature evolution over a day
-
-![Alt text](img/screen5.gif?raw=true "Screenshot")
-
-Animation of the athmospheric pressure evolution over a day
-
-![Alt text](img/screen6.gif?raw=true "Screenshot")
-
-Animation of the cloudiness evolution over a day (assuming there is a water source in the southeast corner of the map)
-
-![Alt text](img/screen7.gif?raw=true "Screenshot")
-
-Animation of the wind evolution over a day
-
-![Alt text](img/screen8.gif?raw=true "Screenshot")
 
 ## Authors
 Nicolas Lépy
