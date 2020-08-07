@@ -125,7 +125,9 @@ Then,
 
 (Normaly, wind direction affects weather, but as wind is not yet implemented, this part is currently ignored)
 
-Finally, we obtain a number between 1 and 32, corresponding to the coming weather
+Finally, we obtain a number between 1 and 32, corresponding to the coming weather.
+
+This method will be replaced by the cloudiness and wind data that we will calculate ourselves.
 
 ### Predicting cloudiness
 
