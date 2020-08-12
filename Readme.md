@@ -48,6 +48,12 @@ Animation of the wind evolution over a day
 
 ![Alt text](img/screen8.gif?raw=true "Screenshot")
 
+### France dataset (in construction)
+
+Summer day temperature at 6pm
+
+![Alt text](img/screen9.png?raw=true "Screenshot")
+
 ## Algorithm
 
 Algorithm used is quite simple, use simple mathematicals concepts and take into consideration only a few parameters, so the efficiency is relative and only allows a globally consistent prediction but without extreme scenarios.
@@ -85,12 +91,6 @@ City influence is the ratio of its distance to the station to the sum of all dis
 ![Alt text](img/1.gif)
 
 ![Alt text](img/2.gif)
-
-### France dataset (in construction)
-
-Summer day temperature at 6pm
-
-![Alt text](img/screen9.png?raw=true "Screenshot")
 
 ### Predicting the day's athmospheric pressure of a city
 
