@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using MathNet.Numerics.LinearAlgebra;
 
@@ -118,10 +119,44 @@ namespace WeatherPrediction
                 }
             }
 
-            
+            InterpolateValues();
             file.Close();
         }
-        
+
+        /// <summary>
+        /// If only one value per month was given, temperature for the other date of the month are interpolated
+        /// </summary>
+        private void InterpolateValues()
+        {
+            foreach (Region r in _database.Regions)
+            {
+                foreach (City c in r.Cities)
+                {
+                    //If one report per month
+                    if (c.Reports.Count == 12)
+                    {
+                        for (int month = 0; month < 12; month++)
+                        {
+                            Report monthly = c.Reports[month];
+                            for (int i = 2; i <= 31; i++)
+                            {
+                                try
+                                {
+                                    DateTime date = new DateTime(monthly.Day.Year, monthly.Day.Month, i);
+                                    Report d = new Report(date, monthly.TMin, monthly.TMax);
+                                    c.Reports.Add(d);
+                                }
+                                catch (Exception e)
+                                {
+                                    Console.WriteLine(e.ToString());
+                                }
+                            }
+                        }
+                    }
+   
+                }
+            }
+        }
 
     }
 }

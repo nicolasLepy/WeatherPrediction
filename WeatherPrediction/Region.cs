@@ -17,8 +17,7 @@ namespace WeatherPrediction
         private readonly string _mapPath;
         private readonly List<City> _cities;
         private readonly Matrix<double> _waterMap;
-        private readonly List<RegionalReport> _windReports;
-        private readonly List<RegionalReport> _cloudinessReports;
+        private List<WeatherReport> _reports;
 
         public string Name => _name;
         public double MapSizeX => _mapSizeX;
@@ -26,8 +25,7 @@ namespace WeatherPrediction
         public string MapPath => _mapPath;
         public List<City> Cities => _cities;
         public Matrix<double> WaterMap => _waterMap;
-        public List<RegionalReport> WindReports => _windReports;
-        public List<RegionalReport> CloudinessReports => _cloudinessReports;
+        public List<WeatherReport> Reports => _reports;
 
         public Region(string name, double mapSizeX, double mapSizeY, string mapPath, Matrix<double> waterMap)
         {
@@ -37,16 +35,15 @@ namespace WeatherPrediction
             _mapPath = mapPath;
             _cities = new List<City>();
             _waterMap = waterMap;
-            _cloudinessReports = new List<RegionalReport>();
-            _windReports = new List<RegionalReport>();
+            _reports = new List<WeatherReport>();
         }
 
         public Matrix<double> LastCloudinessReport()
         {
             Matrix<double> res;
-            if (CloudinessReports.Count > 0)
+            if (_reports.Count > 0)
             {
-                res = CloudinessReports[CloudinessReports.Count - 1].Matrix;
+                res = _reports[_reports.Count - 1].CloudinessMatrix;
             }
             else
             {
@@ -58,12 +55,12 @@ namespace WeatherPrediction
         public Matrix<double> GetCloudinessReport(DateTime date, int hour)
         {
             Matrix<double> res = null;
-            foreach(RegionalReport rr in _cloudinessReports)
+            foreach(WeatherReport rr in _reports)
             {
                 if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day &&
                     rr.Hour == hour)
                 {
-                    res = rr.Matrix;
+                    res = rr.CloudinessMatrix;
                 }
             }
             return res;
@@ -72,12 +69,12 @@ namespace WeatherPrediction
         public Matrix<double> GetWindReport(DateTime date, int hour)
         {
             Matrix<double> res = null;
-            foreach (RegionalReport rr in _windReports)
+            foreach (WeatherReport rr in _reports)
             {
                 if (rr.Date.Year == date.Year && rr.Date.Month == date.Month && rr.Date.Day == date.Day &&
                     rr.Hour == hour)
                 {
-                    res = rr.Matrix;
+                    res = rr.WindMatrix;
                 }
             }
             return res;

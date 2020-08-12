@@ -127,14 +127,13 @@ namespace WeatherPrediction
             for(int hour = 0; hour<24; hour++)
             {
                 Matrix<double> pressures = Utils.GeneratePressuresMatrix(_region, _day, hour);
-                Matrix<double> report = _region.LastCloudinessReport().Clone();
-                Utils.ComputeCloudiness(report, pressures, _region.WaterMap);
+                Matrix<double> cloudinessMatrix = _region.LastCloudinessReport().Clone();
+                Utils.ComputeCloudiness(cloudinessMatrix, pressures, _region.WaterMap);
 
                 Matrix<double> wind = Utils.CreateMatrix(Utils.MATRIX_SIZE, Utils.MATRIX_SIZE, 0);
-                Utils.EdgeDetection(wind, report);
+                Utils.EdgeDetection(wind, cloudinessMatrix);
 
-                _region.CloudinessReports.Add(new RegionalReport(_day, hour, report));
-                _region.WindReports.Add(new RegionalReport(_day, hour, wind));
+                _region.Reports.Add(new WeatherReport(_day, hour, cloudinessMatrix, wind));
             }
         }
 

@@ -24,6 +24,9 @@ namespace WeatherViewer
         private readonly double _width;
         private readonly double _height;
 
+        private readonly double _imageWidth = 1000;
+        private readonly double _imageHeight = 949;
+
 
         async Task Map(DateTime date, int hour, double p, int step)
         {
@@ -67,16 +70,16 @@ namespace WeatherViewer
 
         private Point Map2Screen(Point p)
         {
-            double x = (p.X / 1900.0) * _width;
-            double y = (p.Y / 1283.0) * _height;
+            double x = (p.X / _imageWidth) * _width;
+            double y = (p.Y / _imageHeight) * _height;
 
             return new Point(x, y);
         }
 
         private Point Screen2Map(Point p)
         {
-            double x = (p.X / _width) * 1900.0;
-            double y = (p.Y / _height) * 1283.0;
+            double x = (p.X / _width) * _imageWidth;
+            double y = (p.Y / _height) * _imageHeight;
             return new Point(x, y);
         }
 
@@ -231,6 +234,8 @@ namespace WeatherViewer
         
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
         {
+            Point p2 = Mouse.GetPosition(canvas);
+            lbPosition.Content = p2.X + " - " + p2.Y;
             try
             {
                 Point p = Mouse.GetPosition(canvas);

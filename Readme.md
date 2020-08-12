@@ -86,6 +86,12 @@ City influence is the ratio of its distance to the station to the sum of all dis
 
 ![Alt text](img/2.gif)
 
+### France dataset (in construction)
+
+Summer day temperature at 6pm
+
+![Alt text](img/screen9.png?raw=true "Screenshot")
+
 ### Predicting the day's athmospheric pressure of a city
 
 A similar process is used to predict athmospheric pressure of a city.

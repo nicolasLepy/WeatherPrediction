@@ -136,7 +136,7 @@ namespace WeatherViewer
             _database.ResetForecast();
             foreach(Region region in _database.Regions)
             {
-                _forecast = new ForecastGenerator(region, new DateTime(281, 5, 31), Double.Parse(tbAlpha.Text, CultureInfo.InvariantCulture), Double.Parse(tbBeta.Text, CultureInfo.InvariantCulture), Double.Parse(tbGamma.Text, CultureInfo.InvariantCulture));
+                _forecast = new ForecastGenerator(region, new DateTime(2020, 5, 31), Double.Parse(tbAlpha.Text, CultureInfo.InvariantCulture), Double.Parse(tbBeta.Text, CultureInfo.InvariantCulture), Double.Parse(tbGamma.Text, CultureInfo.InvariantCulture));
                 for (int i = 0; i < 60; i++)
                 {
                     _forecast.GenerateDay();

@@ -8,7 +8,7 @@
         Title="Map_Window" Height="850" Width="1300" Style="{StaticResource StyleWindows}">
     <Grid Name="grid">
 		<Canvas Name="canvas" Height="850" Width="1300" MouseMove="Canvas_MouseMove">
-			<Image Name="imgMap" Height="850" Width="1300"/>
+			<Image Name="imgMap" Height="949" Width="1000"/>
 		</Canvas>
 		<DatePicker Name="dpDate" Width="200" HorizontalAlignment="Left"/>
 		<TextBox Name="tbHour" Width="50" Height="15" VerticalAlignment="Top" Margin="0 25 0 0" HorizontalAlignment="Left"/>
@@ -21,6 +21,8 @@
 		<Button Name="btnComputeCloudiness" Content="Cloudiness" Width="60" Height="20" VerticalAlignment="Top" Margin="0 170 0 0" HorizontalAlignment="Left" Click="BtnComputeCloudiness_Click"/>
 		<Button Name="btnComputeWind" Content="Wind" Width="60" Height="20" VerticalAlignment="Top" Margin="0 195 0 0" HorizontalAlignment="Left" Click="BtnComputeWind_Click"/>
 		<Label Name="lbTemp" Width="50" Height="35" VerticalAlignment="Top" Margin="0 220 0 0" HorizontalAlignment="Left" Style="{StaticResource StyleLabelTempMax}" Content="88"/>
+
+		<Label Name="lbPosition" Width="100" Height="35" VerticalAlignment="Top" Margin="0 250 0 0" HorizontalAlignment="Left" Style="{StaticResource StyleLabelTempMax}" Content="88"/>
 
 	</Grid>
 </Window>
